@@ -1,0 +1,19 @@
+# dev ブランチに push されたら、公開処理（deploy.yml）を main 側で起動する。
+# GitHub Pages は main からの公開しか許可していないため、dev から直接は公開できない。
+name: Rebuild site after dev push
+
+on:
+  push:
+    branches: [dev]
+
+permissions:
+  actions: write
+
+jobs:
+  trigger:
+    runs-on: ubuntu-latest
+    steps:
+      - name: deploy.yml を main で実行
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run deploy.yml --repo "$GITHUB_REPOSITORY" --ref main

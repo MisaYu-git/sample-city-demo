@@ -1,4 +1,8 @@
-# main ブランチに push すると、自動でビルドして GitHub Pages に公開する。
+# 本番（main）と作業用（dev）を1つの GitHub Pages にまとめて公開する。
+#   本番    : https://<ユーザー名>.github.io/<リポジトリ名>/
+#   作業用  : https://<ユーザー名>.github.io/<リポジトリ名>/staging/   （dev ブランチの内容）
+# main に push すると動く。dev に push したときは notify-staging.yml が、この処理を main 側で呼び出す。
+# （Pages は main からしか公開できない決まりのため）
 # リポジトリが公開（Public）なら、GitHub Actions も Pages も無料。
 name: Deploy to GitHub Pages
 
@@ -20,21 +24,67 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: 本番（main）を取得
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          path: prod
+
+      - name: dev ブランチがあるか確認
+        id: dev
+        run: |
+          if git -C prod ls-remote --exit-code --heads origin dev > /dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: 作業用（dev）を取得
+        if: steps.dev.outputs.exists == 'true'
+        uses: actions/checkout@v4
+        with:
+          ref: dev
+          path: staging
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: npm
-      - run: npm ci
-      - run: npm run build
+
+      - name: 本番をビルド
+        working-directory: prod
+        run: |
+          npm ci
+          npm run build
         env:
           # https://<ユーザー名>.github.io/<リポジトリ名>/ で公開されるため、サブパスを指定する
           VITE_BASE: /${{ github.event.repository.name }}/
           # サーバー設定なしで、画面のURLを直接開いても動くようにする
           VITE_ROUTER: hash
+
+      - name: 作業用をビルド
+        if: steps.dev.outputs.exists == 'true'
+        working-directory: staging
+        run: |
+          npm ci
+          npm run build
+        env:
+          VITE_BASE: /${{ github.event.repository.name }}/staging/
+          VITE_ROUTER: hash
+          # 画面上部に「作業用環境」の帯を出し、検索エンジンには載せない
+          VITE_ENV_LABEL: staging
+
+      - name: 本番の下に作業用を配置
+        run: |
+          mkdir site
+          cp -R prod/dist/. site/
+          if [ -d staging/dist ]; then
+            mkdir site/staging
+            cp -R staging/dist/. site/staging/
+          fi
+
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: dist
+          path: site
 
   deploy:
     needs: build

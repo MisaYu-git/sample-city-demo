@@ -20,12 +20,18 @@ import { ShokuhinDetailPage } from "./pages/shokuhin/ShokuhinDetailPage";
 import { ConnectListPage } from "./pages/connect/ConnectListPage";
 import { ConnectDetailPage } from "./pages/connect/ConnectDetailPage";
 
+// 作業用ページのビルドでだけ VITE_ENV_LABEL が設定され、本番との取り違えを防ぐ帯を出す
+const envLabel = import.meta.env.VITE_ENV_LABEL;
+
 export default function App() {
   const { pathname } = useLocation();
   const department = findDepartment(pathname);
 
   return (
     <div className="app">
+      {envLabel && (
+        <div className="env-banner">作業用環境（{envLabel}）｜ 本番ではありません。変更の確認用のページです</div>
+      )}
       <Header department={department} />
       <Breadcrumb department={department} />
       <main className="gov-main">

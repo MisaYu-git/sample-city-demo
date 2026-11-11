@@ -706,3 +706,17 @@ body {
   color: var(--gov-amber);
   font-style: italic;
 }
+
+/* 作業用環境（staging）の目印。本番のビルドでは表示されない */
+.env-banner {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 6px 12px;
+  background: #fff3cd;
+  border-bottom: 2px solid #b8860b;
+  color: #664d03;
+  font-size: 13px;
+  font-weight: 700;
+  text-align: center;
+}
