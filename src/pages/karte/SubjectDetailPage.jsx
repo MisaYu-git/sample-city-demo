@@ -66,7 +66,7 @@ export function SubjectDetailPage() {
     <div className="detail">
       <div className="page-title-bar">
         <h1>カルテ詳細</h1>
-        <Link to="/" className="back-link">
+        <Link to="/karte" className="back-link">
           ← 一覧へ戻る
         </Link>
       </div>

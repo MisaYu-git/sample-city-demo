@@ -1,8 +1,11 @@
+import { useEffect, useRef } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
-import { findDepartment } from "./config/departments";
-import { Header } from "./components/Header";
-import { Breadcrumb } from "./components/Breadcrumb";
+import { findUseCase } from "./config/usecases";
+import { SiteHeader } from "./components/SiteHeader";
+import { SiteFooter } from "./components/SiteFooter";
+import { DemoLayout } from "./components/DemoLayout";
 import { ConnectWidget } from "./components/ConnectWidget";
+import { PortalPage } from "./pages/portal/PortalPage";
 import { SubjectListPage } from "./pages/karte/SubjectListPage";
 import { SubjectDetailPage } from "./pages/karte/SubjectDetailPage";
 import { ResidentListPage } from "./pages/resident/ResidentListPage";
@@ -24,38 +27,55 @@ import { ConnectDetailPage } from "./pages/connect/ConnectDetailPage";
 const envLabel = import.meta.env.VITE_ENV_LABEL;
 
 export default function App() {
-  const { pathname } = useLocation();
-  const department = findDepartment(pathname);
+  const { pathname, hash } = useLocation();
+
+  // 画面を移ったときの表示位置。
+  //  - 別のデモやトップへ移ったら、上端から表示する
+  //  - 同じデモの中（一覧 ⇔ 詳細）なら、業務システムのウィンドウの位置から表示する
+  //  - #usecases のようなページ内リンクは、各ページ側でその位置へスクロールする
+  const previousDemo = useRef();
+  useEffect(() => {
+    const demo = findUseCase(pathname)?.key;
+    if (!hash) {
+      const stage = document.querySelector(".demo-stage");
+      if (demo && demo === previousDemo.current && stage) stage.scrollIntoView({ block: "start" });
+      else window.scrollTo(0, 0);
+    }
+    previousDemo.current = demo;
+  }, [pathname, hash]);
 
   return (
     <div className="app">
       {envLabel && (
         <div className="env-banner">作業用環境（{envLabel}）｜ 本番ではありません。変更の確認用のページです</div>
       )}
-      <Header department={department} />
-      <Breadcrumb department={department} />
-      <main className="gov-main">
+      <SiteHeader />
+      <div className="app-body">
         <Routes>
-          <Route path="/" element={<SubjectListPage />} />
-          <Route path="/subjects/:id" element={<SubjectDetailPage />} />
-          <Route path="/resident" element={<ResidentListPage />} />
-          <Route path="/resident/:id" element={<ResidentDetailPage />} />
-          <Route path="/juki" element={<JukiListPage />} />
-          <Route path="/juki/:id" element={<JukiDetailPage />} />
-          <Route path="/soudan" element={<SoudanListPage />} />
-          <Route path="/soudan/new" element={<SoudanNewPage />} />
-          <Route path="/soudan/:id" element={<SoudanDetailPage />} />
-          <Route path="/kansensho" element={<KansenshoPage />} />
-          <Route path="/kosodate" element={<KosodateListPage />} />
-          <Route path="/kosodate/:id" element={<KosodateDetailPage />} />
-          <Route path="/shokuhin" element={<ShokuhinListPage />} />
-          <Route path="/shokuhin/:id" element={<ShokuhinDetailPage />} />
-          <Route path="/connect" element={<ConnectListPage />} />
-          <Route path="/connect/:id" element={<ConnectDetailPage />} />
+          <Route path="/" element={<PortalPage />} />
+          {/* 各業務デモは DemoLayout（紹介欄＋業務システムのウィンドウ）の中に表示する */}
+          <Route element={<DemoLayout />}>
+            <Route path="/karte" element={<SubjectListPage />} />
+            <Route path="/subjects/:id" element={<SubjectDetailPage />} />
+            <Route path="/resident" element={<ResidentListPage />} />
+            <Route path="/resident/:id" element={<ResidentDetailPage />} />
+            <Route path="/juki" element={<JukiListPage />} />
+            <Route path="/juki/:id" element={<JukiDetailPage />} />
+            <Route path="/soudan" element={<SoudanListPage />} />
+            <Route path="/soudan/new" element={<SoudanNewPage />} />
+            <Route path="/soudan/:id" element={<SoudanDetailPage />} />
+            <Route path="/kansensho" element={<KansenshoPage />} />
+            <Route path="/kosodate" element={<KosodateListPage />} />
+            <Route path="/kosodate/:id" element={<KosodateDetailPage />} />
+            <Route path="/shokuhin" element={<ShokuhinListPage />} />
+            <Route path="/shokuhin/:id" element={<ShokuhinDetailPage />} />
+            <Route path="/connect" element={<ConnectListPage />} />
+            <Route path="/connect/:id" element={<ConnectDetailPage />} />
+          </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </main>
-      <footer className="gov-footer">{department.footer}</footer>
+      </div>
+      <SiteFooter />
       <ConnectWidget />
     </div>
   );
