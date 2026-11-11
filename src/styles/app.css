@@ -1,228 +1,369 @@
+/*
+ * 全体のスタイル。
+ * 色・文字・角丸などの値は、デジタル庁デザインシステムのデザイントークン（--color-* / --font-* など。
+ * main.jsx で読み込んでいる @digital-go-jp/design-tokens）を使っている。
+ * 見た目を変えたいときは、まず下の :root の「用途の名前」を差し替えるのが近道。
+ *
+ * 守っている基準（デジタル庁デザインシステムの考え方に沿ったもの）
+ *  - 文字は 16px 以上が基本。14px は補足情報だけに使う（それ未満は使わない）
+ *  - 文字と背景のコントラスト比は 4.5:1 以上、枠線・アイコンなど文字以外は 3:1 以上
+ *  - キーボード操作の位置が見えるよう、フォーカスを黒い枠＋黄色い縁で表示する（変更しない）
+ *  - リンクは色だけでなく下線でも区別する
+ */
 :root {
-  --gov-navy: #1a3d6d;
-  --gov-navy-dark: #14315a;
-  --gov-blue: #2b6cb0;
-  --gov-line: #c9d2de;
-  --gov-bg: #eef1f5;
-  --gov-panel: #ffffff;
-  --gov-green: #227a3b;
-  --gov-red: #c0392b;
-  --gov-amber: #b8860b;
-  --text: #1f2933;
+  /* 文字 */
+  --font-ui: "Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "BIZ UDPGothic", Meiryo, sans-serif;
+  --text: var(--color-neutral-solid-gray-900); /* 本文 */
+  --text-sub: var(--color-neutral-solid-gray-700); /* 補足 */
+  --text-muted: var(--color-neutral-solid-gray-600); /* 最も薄い文字（白地で 5.7:1） */
+
+  /* 面と線 */
+  --bg: var(--color-neutral-white);
+  --bg-sub: var(--color-neutral-solid-gray-50);
+  --line: var(--color-neutral-solid-gray-200); /* 区切り線（装飾） */
+  --line-strong: var(--color-neutral-solid-gray-420); /* カードなどの枠 */
+  --control-border: var(--color-neutral-solid-gray-536); /* 入力欄の枠（白地でもグレー地でも 3:1 以上） */
+
+  /* 主な色 */
+  --primary: var(--color-primitive-blue-900);
+  --primary-hover: var(--color-primitive-blue-1000);
+  --primary-active: var(--color-primitive-blue-1200);
+  --primary-soft: var(--color-primitive-blue-50);
+  --link: var(--color-primitive-blue-1000);
+  --link-hover: var(--color-primitive-blue-1100);
+  --link-visited: var(--color-primitive-magenta-900);
+  --focus-ring: var(--color-primitive-yellow-300);
+
+  /* 状態（成功・エラー・警告） */
+  --success: var(--color-semantic-success-2);
+  --success-soft: var(--color-primitive-green-50);
+  --error: var(--color-semantic-error-2);
+  --error-soft: var(--color-primitive-red-50);
+  --warning: var(--color-primitive-yellow-1000);
+  --warning-border: var(--color-primitive-yellow-800);
+  --warning-soft: var(--color-primitive-yellow-50);
+
+  --radius: var(--border-radius-8);
+  --radius-sm: var(--border-radius-6);
+  --content-width: 1280px;
 }
+
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
-  font-family:
-    Hiragino Kaku Gothic ProN,
-    Meiryo,
-    MS PGothic,
-    sans-serif;
-  background: var(--gov-bg);
+  font-family: var(--font-ui);
+  background: var(--bg);
   color: var(--text);
-  font-size: 14px;
-  line-height: 1.6;
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-170);
+  letter-spacing: 0.02em;
 }
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
+
+/* ---------- キーボードフォーカス（黒い枠＋黄色い縁。変更しない） ---------- */
+:focus-visible {
+  outline: 4px solid var(--color-neutral-black);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- リンク ---------- */
+a {
+  color: var(--link);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+a:visited {
+  color: var(--link-visited);
+}
+a:hover {
+  color: var(--link-hover);
+  text-decoration-thickness: 3px;
+}
+
+/* ---------- ヘッダー ---------- */
 .gov-header {
-  background: linear-gradient(180deg, var(--gov-navy), var(--gov-navy-dark));
-  color: #fff;
-  border-bottom: 4px solid #c9a227;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
 }
 .gov-header-inner {
-  max-width: 1180px;
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 10px 20px;
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 .gov-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 16px;
 }
 .gov-mark {
-  width: 42px;
-  height: 42px;
-  background: #fff;
-  color: var(--gov-navy);
-  border-radius: 4px;
+  width: 48px;
+  height: 48px;
+  background: var(--primary);
+  color: var(--color-neutral-white);
+  border-radius: var(--radius);
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: 700;
-  font-size: 24px;
+  font-size: var(--font-size-24);
 }
 .gov-title {
-  font-size: 18px;
+  font-size: var(--font-size-20);
   font-weight: 700;
+  line-height: var(--line-height-140);
 }
 .gov-sub {
-  font-size: 12px;
-  opacity: 0.85;
+  font-size: var(--font-size-16);
+  color: var(--text-sub);
+  line-height: var(--line-height-150);
 }
 .gov-user {
-  font-size: 12px;
+  font-size: var(--font-size-14);
+  color: var(--text-sub);
   text-align: right;
+  line-height: var(--line-height-150);
 }
 .gov-header-right {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 6px;
+  gap: 8px;
 }
 .gov-download {
-  display: inline-block;
-  font-size: 12px;
-  color: var(--gov-navy);
-  background: #fff;
-  border: 1px solid #c9a227;
-  border-radius: 4px;
-  padding: 4px 10px;
+  display: inline-flex;
+  align-items: center;
+  min-height: 36px;
+  padding: 4px 16px;
+  font-size: var(--font-size-14);
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--bg);
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
   text-decoration: none;
   white-space: nowrap;
 }
+.gov-download:visited {
+  color: var(--primary);
+}
 .gov-download:hover {
-  background: #f3e8c4;
+  background: var(--primary-soft);
+  color: var(--primary-hover);
 }
-.gov-env {
-  background: #c9a227;
-  color: #1a1a1a;
-  padding: 2px 8px;
-  border-radius: 3px;
+
+/* ---------- 業務切り替えタブ ---------- */
+.gov-appswitch {
+  border-top: 1px solid var(--line);
+  background: var(--bg-sub);
 }
-.gov-breadcrumb {
-  max-width: 1180px;
+.gov-appswitch-inner {
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 8px 20px;
-  width: 100%;
-  font-size: 12px;
-  color: #555;
+  padding: 0 24px;
+  display: flex;
+  flex-wrap: wrap;
 }
-.gov-breadcrumb a {
-  color: var(--gov-blue);
+.appswitch-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 16px 6px;
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-150);
+  color: var(--link);
   text-decoration: none;
+  border-bottom: 4px solid transparent;
 }
-.gov-breadcrumb a:hover {
-  text-decoration: underline;
+.appswitch-tab:visited {
+  color: var(--link);
+}
+.appswitch-tab:hover {
+  background: var(--primary-soft);
+  color: var(--link-hover);
+  border-bottom-color: var(--color-primitive-blue-300);
+}
+.appswitch-tab.active {
+  color: var(--text);
+  font-weight: 700;
+  border-bottom-color: var(--primary);
+  background: var(--bg);
+}
+
+/* ---------- パンくず・本文・フッター ---------- */
+.gov-breadcrumb {
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: 12px 24px 4px;
+  width: 100%;
+  font-size: var(--font-size-16);
+  color: var(--text-sub);
 }
 .gov-breadcrumb .sep {
   margin: 0 8px;
-  color: #aaa;
+  color: var(--text-muted);
 }
 .gov-main {
-  max-width: 1180px;
+  max-width: var(--content-width);
   margin: 0 auto;
-  padding: 4px 20px 40px;
+  padding: 8px 24px 48px;
   width: 100%;
   flex: 1;
 }
 .gov-footer {
-  background: var(--gov-navy-dark);
-  color: #dfe6ef;
+  background: var(--text);
+  color: var(--color-neutral-white);
   text-align: center;
-  padding: 12px;
-  font-size: 12px;
+  padding: 16px;
+  font-size: var(--font-size-14);
 }
+
+/* ---------- ページ見出し ---------- */
 .page-title-bar {
   display: flex;
   align-items: baseline;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 8px 24px;
   justify-content: space-between;
-  border-left: 6px solid var(--gov-navy);
-  padding: 4px 12px;
-  background: #fff;
-  margin: 12px 0;
-  box-shadow: 0 1px 2px #0000000f;
+  border-left: 8px solid var(--primary);
+  padding: 8px 16px;
+  margin: 16px 0;
 }
 .page-title-bar h1 {
-  font-size: 18px;
-  margin: 6px 0;
+  font-size: var(--font-size-28);
+  line-height: var(--line-height-140);
+  margin: 4px 0;
 }
 .page-note {
-  font-size: 12px;
-  color: #666;
+  font-size: var(--font-size-14);
+  color: var(--text-sub);
+  line-height: var(--line-height-150);
 }
 .back-link {
-  color: var(--gov-blue);
-  text-decoration: none;
-  font-size: 13px;
+  font-size: var(--font-size-16);
 }
-.back-link:hover {
-  text-decoration: underline;
-}
+
+/* ---------- 検索条件・入力欄 ---------- */
 .filter-panel {
-  background: var(--gov-panel);
-  border: 1px solid var(--gov-line);
-  padding: 14px 16px;
-  margin-bottom: 12px;
+  background: var(--bg-sub);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px 24px;
+  margin-bottom: 16px;
 }
 .filter-row {
   display: flex;
   flex-wrap: wrap;
-  gap: 18px;
+  gap: 16px 24px;
 }
-.filter-row label {
+.filter-row label,
+.transcribe-grid label,
+.soudan-form > label {
   display: flex;
   flex-direction: column;
-  font-size: 12px;
-  color: #444;
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  color: var(--text);
   gap: 4px;
 }
 .filter-row input,
+.filter-row select,
+.transcribe-grid input,
+.transcribe-grid select,
+.status-select select,
+.soudan-form input,
+.soudan-form select,
+.soudan-form textarea,
+.memo {
+  min-height: 48px;
+  padding: 8px 12px;
+  background: var(--bg);
+  color: var(--text);
+  border: 1px solid var(--control-border);
+  border-radius: var(--radius);
+  font-family: inherit;
+  font-size: var(--font-size-16);
+  font-weight: 400;
+  line-height: var(--line-height-150);
+  letter-spacing: inherit;
+}
+.filter-row input,
 .filter-row select {
-  padding: 6px 8px;
-  border: 1px solid #aab4c0;
-  border-radius: 3px;
-  font-size: 13px;
-  min-width: 160px;
+  min-width: 200px;
+}
+.transcribe-grid input,
+.transcribe-grid select {
+  min-width: 240px;
+}
+.filter-row input::placeholder,
+.memo::placeholder,
+.soudan-form ::placeholder {
+  color: var(--text-muted);
+}
+.filter-row input:hover,
+.filter-row select:hover,
+.memo:hover,
+.soudan-form input:hover,
+.soudan-form select:hover,
+.soudan-form textarea:hover {
+  border-color: var(--text);
 }
 .result-count {
-  font-size: 13px;
-  margin: 8px 2px;
+  font-size: var(--font-size-16);
+  margin: 12px 0;
 }
 .result-count strong {
-  color: var(--gov-navy);
-  font-size: 15px;
+  color: var(--primary);
+  font-size: var(--font-size-20);
+}
+
+/* ---------- 表 ---------- */
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
 }
 .data-table,
 .vital-table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border: 1px solid var(--gov-line);
-  font-size: 13px;
+  background: var(--bg);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-150);
+  letter-spacing: 0;
 }
 .data-table th,
 .vital-table th {
-  background: var(--gov-navy);
-  color: #fff;
-  padding: 8px 10px;
+  background: var(--bg-sub);
+  color: var(--text);
+  padding: 12px;
   text-align: left;
-  font-weight: 400;
-  border-right: 1px solid #2c4a75;
+  font-weight: 700;
+  border-top: 1px solid var(--line-strong);
+  border-bottom: 2px solid var(--text);
+  white-space: nowrap;
 }
 .data-table td,
 .vital-table td {
-  padding: 8px 10px;
-  border-bottom: 1px solid #e4e9f0;
-  border-right: 1px solid #eef1f5;
-}
-.data-table tbody tr:nth-child(2n) {
-  background: #f7f9fc;
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
 }
 .clickable-row {
   cursor: pointer;
 }
 .clickable-row:hover {
-  background: #e8f0fb !important;
+  background: var(--primary-soft);
 }
 .name-cell {
   font-weight: 700;
@@ -230,387 +371,405 @@ body {
 .kana {
   display: block;
   font-weight: 400;
-  font-size: 11px;
-  color: #888;
+  font-size: var(--font-size-14);
+  color: var(--text-sub);
 }
 .empty {
   text-align: center;
-  color: #999;
-  padding: 20px;
+  color: var(--text-sub);
+  padding: 32px;
 }
-.row-btn {
-  background: var(--gov-blue);
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 3px;
+
+/* ---------- ボタン ---------- */
+.row-btn,
+.tool-btn,
+.save-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: var(--line-height-150);
+  letter-spacing: 0.02em;
+  border: 1px solid var(--primary);
+  border-radius: var(--radius);
   cursor: pointer;
-  font-size: 12px;
+  text-decoration: none;
 }
-.row-btn:hover {
-  background: #245a94;
+.row-btn:visited,
+.tool-btn:visited,
+.save-btn:visited {
+  color: inherit;
 }
-.badge {
-  padding: 2px 10px;
-  border-radius: 12px;
-  font-size: 12px;
+/* 主なボタン（塗りつぶし）: 保存・コピー・「◯◯を開く」 */
+.row-btn,
+.copy-btn,
+.save-btn {
+  background: var(--primary);
+  color: var(--color-neutral-white);
+}
+.row-btn:visited,
+.copy-btn:visited,
+.save-btn:visited {
+  color: var(--color-neutral-white);
+}
+.row-btn:hover,
+.copy-btn:hover,
+.save-btn:hover {
+  background: var(--primary-hover);
+  color: var(--color-neutral-white);
+}
+.row-btn:active,
+.copy-btn:active,
+.save-btn:active {
+  background: var(--primary-active);
+}
+/* 一覧の行内ボタンは小さめ */
+.row-btn {
+  min-height: 36px;
+  padding: 4px 16px;
+  font-size: var(--font-size-14);
   white-space: nowrap;
 }
-.badge-gray {
-  background: #e2e8f0;
-  color: #4a5568;
+.tool-btn {
+  min-height: 44px;
+  padding: 8px 20px;
+  font-size: var(--font-size-16);
+}
+.save-btn {
+  min-height: 48px;
+  padding: 8px 32px;
+  font-size: var(--font-size-16);
+}
+/* 副ボタン（白地に枠線） */
+.download-btn,
+.save-btn.secondary,
+.copy-row-btn {
+  background: var(--bg);
+  color: var(--primary);
+  border-color: var(--primary);
+}
+.download-btn:visited,
+.save-btn.secondary:visited,
+.copy-row-btn:visited {
+  color: var(--primary);
+}
+.download-btn:hover,
+.save-btn.secondary:hover,
+.copy-row-btn:hover {
+  background: var(--primary-soft);
+  color: var(--primary-hover);
+}
+.copy-row-btn {
+  white-space: nowrap;
+}
+/* 削除などの注意が必要なボタン */
+.row-btn.danger {
+  background: var(--bg);
+  color: var(--error);
+  border-color: var(--error);
+  white-space: nowrap;
+}
+.row-btn.danger:hover {
+  background: var(--error-soft);
+  color: var(--error);
+}
+.save-btn:disabled,
+.row-btn:disabled {
+  background: var(--color-neutral-solid-gray-100);
+  color: var(--text-muted);
+  border-color: var(--line-strong);
+  cursor: not-allowed;
+}
+
+/* ---------- 状態タグ（色だけに頼らず、枠線と文字でも区別する） ---------- */
+.badge,
+.judge-badge,
+.genu-tag,
+.addr-from {
+  display: inline-block;
+  padding: 2px 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-14);
+  font-weight: 400;
+  line-height: var(--line-height-150);
+  white-space: nowrap;
+  background: var(--bg-sub);
+  color: var(--text);
+}
+.badge-gray,
+.judge-badge.normal {
+  background: var(--bg-sub);
+  color: var(--text);
+  border-color: var(--line-strong);
 }
 .badge-blue {
-  background: #d3e4f7;
-  color: #1c5488;
+  background: var(--primary-soft);
+  color: var(--color-primitive-blue-1000);
+  border-color: var(--primary);
 }
 .badge-green {
-  background: #d3f0da;
-  color: #1e6b34;
+  background: var(--success-soft);
+  color: var(--color-primitive-green-900);
+  border-color: var(--success);
+}
+.badge-red,
+.judge-badge.danger {
+  background: var(--error-soft);
+  color: var(--color-primitive-red-1000);
+  border-color: var(--error);
+}
+.badge-amber,
+.judge-badge.caution {
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-color: var(--warning-border);
 }
 .level-active {
-  color: var(--gov-red);
+  color: var(--error);
   font-weight: 700;
 }
 .level-motive {
-  color: var(--gov-blue);
+  color: var(--link);
+  font-weight: 700;
 }
+.addr-from {
+  margin-bottom: 2px;
+  background: var(--primary-soft);
+  color: var(--color-primitive-blue-1000);
+  border-color: var(--color-primitive-blue-300);
+}
+
+/* ---------- カード ---------- */
 .card {
-  background: #fff;
-  border: 1px solid var(--gov-line);
-  margin-bottom: 16px;
-  box-shadow: 0 1px 2px #0000000d;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  margin-bottom: 24px;
+  overflow: hidden;
 }
 .card-header {
-  background: #f0f3f8;
-  border-bottom: 2px solid var(--gov-navy);
-  padding: 8px 14px;
+  background: var(--bg-sub);
+  border-bottom: 1px solid var(--line-strong);
+  padding: 12px 24px;
+  font-size: var(--font-size-20);
   font-weight: 700;
-  color: var(--gov-navy);
+  line-height: var(--line-height-140);
+  color: var(--text);
   display: flex;
   align-items: center;
-  gap: 12px;
+  flex-wrap: wrap;
+  gap: 8px 16px;
 }
 .card.highlight .card-header {
-  border-bottom-color: #c9a227;
+  background: var(--primary-soft);
+  border-bottom-color: var(--primary);
+}
+.card.highlight {
+  border-color: var(--primary);
 }
 .card-body {
-  padding: 14px 16px;
+  padding: 24px;
 }
+/* 「GenU」を使う場面の印 */
 .genu-tag {
-  background: #c9a227;
-  color: #1a1a1a;
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
-  font-weight: 400;
+  background: var(--warning-soft);
+  color: var(--warning);
+  border-color: var(--warning-border);
+  font-weight: 700;
 }
+
+/* ---------- 項目の一覧（ラベルと値） ---------- */
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px 24px;
+  gap: 0 40px;
 }
 .info-grid > div {
   display: flex;
-  border-bottom: 1px dotted #dde3ea;
-  padding: 4px 0;
+  gap: 16px;
+  border-bottom: 1px solid var(--line);
+  padding: 12px 0;
 }
 .info-grid .lbl {
-  width: 120px;
-  color: #667;
-  font-size: 12px;
+  flex: 0 0 9em;
+  color: var(--text-sub);
+  font-size: var(--font-size-16);
+  line-height: var(--line-height-150);
 }
 .info-grid .val {
-  font-weight: 500;
-}
-.vital-val {
-  font-weight: 700;
-  text-align: right;
-}
-.vital-val.normal {
-  color: #333;
-}
-.vital-val.caution {
-  color: var(--gov-amber);
-}
-.vital-val.danger {
-  color: var(--gov-red);
-}
-.vital-table td.ref {
-  color: #888;
-  font-size: 12px;
-}
-.judge-badge {
-  font-size: 11px;
-  padding: 2px 8px;
-  border-radius: 3px;
-}
-.judge-badge.normal {
-  background: #eef1f5;
-  color: #555;
-}
-.judge-badge.caution {
-  background: #fdf1cf;
-  color: #8a6400;
-}
-.judge-badge.danger {
-  background: #fadbd6;
-  color: #a02417;
-}
-.findings {
-  margin-top: 14px;
-}
-.findings-title {
-  font-weight: 700;
-  color: var(--gov-navy);
-  font-size: 13px;
-  margin-top: 8px;
-}
-.findings p {
-  margin: 2px 0 8px;
-  background: #f7f9fc;
-  padding: 8px 12px;
-  border-left: 3px solid var(--gov-line);
-}
-.field-help {
-  font-size: 12px;
-  color: #666;
-  margin: 0 0 8px;
-}
-.memo {
-  width: 100%;
-  border: 1px solid #aab4c0;
-  border-radius: 3px;
-  padding: 10px;
-  font-size: 14px;
-  font-family: inherit;
-  resize: vertical;
-}
-.result-memo {
-  background: #fffdf5;
-}
-.char-count {
-  text-align: right;
-  font-size: 12px;
-  color: #888;
-  margin-top: 4px;
-}
-.prompt-tools {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 12px;
-}
-.tool-btn {
-  border: 1px solid var(--gov-line);
-  border-radius: 4px;
-  padding: 8px 14px;
-  font-size: 13px;
-  font-family: inherit;
-  cursor: pointer;
-  font-weight: 700;
-}
-.copy-btn {
-  background: var(--gov-blue);
-  color: #fff;
-  border-color: var(--gov-blue);
-}
-.copy-btn:hover {
-  background: #245a94;
-}
-.download-btn {
-  background: #fff;
-  color: var(--gov-navy);
-  border-color: var(--gov-navy);
-}
-.download-btn:hover {
-  background: #eef4fb;
-}
-.copy-msg {
-  font-size: 13px;
-  color: var(--gov-green);
-  font-weight: 700;
-}
-.save-bar {
-  position: sticky;
-  bottom: 0;
-  background: #fff;
-  border: 1px solid var(--gov-line);
-  border-top: 3px solid var(--gov-navy);
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  box-shadow: 0 -2px 6px #00000014;
-}
-.status-select {
-  font-size: 13px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.status-select select {
-  padding: 6px 10px;
-  border: 1px solid #aab4c0;
-  border-radius: 3px;
-}
-.save-actions {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-.updated-at {
-  font-size: 12px;
-  color: #888;
-}
-.saved-msg {
-  font-size: 13px;
-  color: var(--gov-green);
-  font-weight: 700;
-}
-.save-btn {
-  background: var(--gov-green);
-  color: #fff;
-  border: none;
-  padding: 10px 24px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 700;
-}
-.save-btn:hover {
-  background: #1b6330;
-}
-.save-btn:disabled {
-  background: #9bbfa6;
-  cursor: not-allowed;
-}
-.info {
-  padding: 20px;
-  color: #555;
-}
-.error {
-  padding: 16px;
-  background: #fadbd6;
-  color: #a02417;
-  border: 1px solid #e3b0a8;
-  border-radius: 4px;
-  margin: 12px 0;
-}
-@media (max-width: 900px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
-}
-.gov-appswitch {
-  background: var(--gov-navy-dark);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-}
-.gov-appswitch-inner {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 20px;
-  display: flex;
-  gap: 4px;
-}
-.appswitch-tab {
-  display: inline-block;
-  padding: 9px 20px;
-  font-size: 13px;
-  color: #cdd8e8;
-  text-decoration: none;
-  border: 1px solid transparent;
-  border-bottom: none;
-  border-radius: 5px 5px 0 0;
-  margin-top: 6px;
-}
-.appswitch-tab:hover {
-  background: #ffffff14;
-  color: #fff;
-}
-.appswitch-tab.active {
-  background: var(--gov-bg);
-  color: var(--gov-navy);
-  font-weight: 700;
-  border-color: var(--gov-line);
-}
-.addr-from {
-  display: inline-block;
-  background: #e8eef6;
-  color: var(--gov-navy);
-  font-size: 11px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  margin-bottom: 2px;
+  font-weight: 400;
+  line-height: var(--line-height-150);
+  overflow-wrap: anywhere;
 }
 .info-grid .grid-wide {
   grid-column: 1 / -1;
 }
 .val.strong {
   font-weight: 700;
-  color: var(--gov-navy);
+  color: var(--text);
 }
-.genu-guide .flow-steps {
+
+/* ---------- 検査値・所見 ---------- */
+.vital-val {
+  font-weight: 700;
+  text-align: right;
+}
+.vital-val.normal {
+  color: var(--text);
+}
+.vital-val.caution {
+  color: var(--warning);
+}
+.vital-val.danger {
+  color: var(--error);
+}
+.vital-table td.ref {
+  color: var(--text-sub);
+  font-size: var(--font-size-14);
+}
+.findings {
+  margin-top: 24px;
+}
+.findings-title {
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 16px;
+}
+.findings p {
+  margin: 4px 0 8px;
+  background: var(--bg-sub);
+  padding: 12px 16px;
+  border-left: 4px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+}
+
+/* ---------- 説明文・メモ欄 ---------- */
+.field-help {
+  font-size: var(--font-size-16);
+  color: var(--text-sub);
   margin: 0 0 12px;
-  padding-left: 22px;
-  font-size: 13px;
-  color: #333;
 }
-.genu-guide .flow-steps li {
-  margin: 4px 0;
+.memo {
+  width: 100%;
+  padding: 12px;
+  resize: vertical;
 }
-.download-tools,
-.prompt-tools {
+.result-memo {
+  background: var(--bg);
+}
+.char-count {
+  text-align: right;
+  font-size: var(--font-size-14);
+  color: var(--text-sub);
+  margin-top: 4px;
+}
+.prompt-tools,
+.download-tools {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
   align-items: center;
+  gap: 12px;
+}
+.prompt-tools {
+  margin-bottom: 16px;
+}
+.copy-msg,
+.saved-msg {
+  font-size: var(--font-size-16);
+  color: var(--success);
+  font-weight: 700;
+}
+
+/* ---------- 保存バー（画面の下に固定） ---------- */
+.save-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  border-top: 3px solid var(--primary);
+  border-radius: var(--radius);
+  padding: 12px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  box-shadow: var(--elevation-2);
+}
+.status-select {
+  font-size: var(--font-size-16);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.status-select select {
+  min-width: 200px;
+}
+.save-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.updated-at {
+  font-size: var(--font-size-14);
+  color: var(--text-sub);
+}
+
+/* ---------- お知らせ・エラー表示 ---------- */
+.info {
+  padding: 24px;
+  color: var(--text-sub);
+}
+.error {
+  padding: 16px 24px;
+  background: var(--error-soft);
+  color: var(--error);
+  border: 1px solid var(--error);
+  border-left-width: 8px;
+  border-radius: var(--radius);
+  margin: 16px 0;
+  font-weight: 700;
+}
+.pending-text {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+/* ---------- 効率化フロー（手順の案内） ---------- */
+.genu-guide .flow-steps {
+  margin: 0 0 16px;
+  padding-left: 28px;
+  color: var(--text);
+}
+.genu-guide .flow-steps li {
+  margin: 8px 0;
+  padding-left: 4px;
+}
+.genu-guide .flow-steps li::marker {
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ---------- 子ども・若者総合支援センターの相談フォーム ---------- */
+.soudan-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.soudan-form textarea,
+.soudan-form input,
+.soudan-form select {
+  resize: vertical;
 }
 .transcribe-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
-}
-.transcribe-grid label {
-  display: flex;
-  flex-direction: column;
-  font-size: 13px;
-  color: #444;
-  gap: 5px;
-}
-.transcribe-grid input,
-.transcribe-grid select {
-  padding: 7px 9px;
-  border: 1px solid #aab4c0;
-  border-radius: 3px;
-  font-size: 14px;
-  min-width: 200px;
-}
-.save-btn.secondary {
-  background: #fff;
-  color: var(--gov-navy);
-  border: 1px solid var(--gov-navy);
-}
-.save-btn.secondary:hover {
-  background: #eef2f8;
-}
-.badge-red {
-  background: #f8d7da;
-  color: #a12622;
-}
-.copy-row-btn {
-  background: #fff;
-  color: var(--gov-blue);
-  border: 1px solid var(--gov-blue);
-  white-space: nowrap;
-}
-.copy-row-btn:hover {
-  background: #eef4fb;
-}
-.badge-amber {
-  background: #fbe6c4;
-  color: #8a5a00;
+  gap: 20px 24px;
 }
 .ellipsis-cell {
   max-width: 320px;
@@ -618,56 +777,30 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.soudan-form {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-}
-.soudan-form > label {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  font-size: 13px;
-  color: #444;
-  font-weight: 700;
-}
-.soudan-form textarea,
-.soudan-form input,
-.soudan-form select {
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 400;
-  padding: 8px 10px;
-  border: 1px solid #aab4c0;
-  border-radius: 3px;
-  resize: vertical;
-}
-.soudan-form .transcribe-grid > label {
-  font-weight: 700;
-}
+
+/* ---------- 感染症・医務薬務課のダウンロード欄 ---------- */
 .portal-download-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 24px;
   margin-top: 8px;
 }
 .portal-download-item {
-  border: 1px solid var(--gov-line);
-  border-radius: 6px;
-  padding: 16px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  background: #fafbfd;
+  gap: 12px;
+  background: var(--bg-sub);
 }
 .pdi-title {
   font-weight: 700;
-  color: var(--gov-navy);
-  font-size: 15px;
+  font-size: var(--font-size-20);
+  line-height: var(--line-height-140);
 }
 .pdi-desc {
-  font-size: 13px;
-  color: #555;
+  color: var(--text-sub);
   flex: 1;
 }
 .portal-download-item .tool-btn {
@@ -676,47 +809,63 @@ body {
 .summary-pre {
   white-space: pre-wrap;
   word-break: break-word;
-  font-family:
-    Hiragino Kaku Gothic ProN,
-    Meiryo,
-    sans-serif;
-  font-size: 14px;
+  font-family: inherit;
+  font-size: var(--font-size-16);
   line-height: 1.8;
   color: var(--text);
   margin: 0;
-  background: #fbfcfe;
-  border: 1px solid var(--gov-line);
-  border-radius: 4px;
-  padding: 14px 16px;
-}
-.row-btn.danger {
-  background: #fff;
-  color: var(--gov-red);
-  border: 1px solid var(--gov-red);
-  white-space: nowrap;
-}
-.row-btn.danger:hover {
-  background: #fbeceb;
-}
-.row-btn.danger:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-.pending-text {
-  color: var(--gov-amber);
-  font-style: italic;
+  background: var(--bg-sub);
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius);
+  padding: 16px 24px;
 }
 
-/* 作業用環境（staging）の目印。本番のビルドでは表示されない */
+/* ---------- 作業用環境（staging）の目印。本番のビルドでは表示されない ---------- */
 .env-banner {
   position: sticky;
   top: 0;
   z-index: 100;
-  padding: 6px 12px;
-  background: #fff3cd;
-  border-bottom: 2px solid #b8860b;
-  color: #664d03;
-  font-size: 13px;
+  padding: 8px 16px;
+  background: var(--warning-soft);
+  border-bottom: 2px solid var(--warning-border);
+  color: var(--warning);
+  font-size: var(--font-size-14);
   font-weight: 700;
   text-align: center;
+}
+
+/* ---------- 画面が狭いとき ---------- */
+@media (max-width: 900px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+  .gov-header-right {
+    align-items: flex-start;
+  }
+  .gov-user {
+    text-align: left;
+  }
+}
+@media (max-width: 600px) {
+  .gov-main,
+  .gov-header-inner,
+  .gov-appswitch-inner,
+  .gov-breadcrumb {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .card-body {
+    padding: 16px;
+  }
+  .filter-row input,
+  .filter-row select,
+  .transcribe-grid input,
+  .transcribe-grid select {
+    min-width: 0;
+    width: 100%;
+  }
+  .filter-row label,
+  .transcribe-grid label {
+    width: 100%;
+  }
 }

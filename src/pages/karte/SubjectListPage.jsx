@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { fetchSubjects } from "../../lib/api";
 import { KARTE_STATUS_BADGE } from "./badges";
 
@@ -105,7 +105,7 @@ export function SubjectListPage() {
             {subjects.length}
             {" 件"}
           </div>
-          <table className="data-table">
+          <div className="table-scroll"><table className="data-table">
             <thead>
               <tr>
                 <th>対象者ID</th>
@@ -152,7 +152,7 @@ export function SubjectListPage() {
                     </span>
                   </td>
                   <td>
-                    <button className="row-btn">カルテを開く</button>
+                    <Link to={`/subjects/${subject.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>カルテを開く</Link>
                   </td>
                 </tr>
               ))}
@@ -164,7 +164,7 @@ export function SubjectListPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </>
       )}
     </div>

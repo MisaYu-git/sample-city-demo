@@ -2,6 +2,8 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, HashRouter } from "react-router-dom";
 import App from "./App";
+// デジタル庁デザインシステムのデザイントークン（色・文字・角丸など。MIT ライセンス）
+import "@digital-go-jp/design-tokens/dist/tokens.css";
 import "./styles/app.css";
 
 // 静的ホスティングでURL直打ちの404を避けたいときは VITE_ROUTER=hash でビルドする

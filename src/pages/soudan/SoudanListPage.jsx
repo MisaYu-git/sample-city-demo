@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { soudanStore } from "../../data/soudan";
 import { SOUDAN_STATUS_BADGE, SOUDAN_URGENCY_BADGE } from "./badges";
 
@@ -81,7 +81,7 @@ export function SoudanListPage() {
         {records.length}
         {" 件"}
       </div>
-      <table className="data-table">
+      <div className="table-scroll"><table className="data-table">
         <thead>
           <tr>
             <th>相談ID</th>
@@ -119,7 +119,7 @@ export function SoudanListPage() {
                 </span>
               </td>
               <td>
-                <button className="row-btn">記録を開く</button>
+                <Link to={`/soudan/${record.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>記録を開く</Link>
               </td>
             </tr>
           ))}
@@ -131,7 +131,7 @@ export function SoudanListPage() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

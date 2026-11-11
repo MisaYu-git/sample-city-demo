@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { kosodateStore } from "../../data/kosodate";
 import { KOSODATE_STATUS_BADGE } from "./badges";
 
@@ -63,7 +63,7 @@ export function KosodateListPage() {
         {applications.length}
         {" 件"}
       </div>
-      <table className="data-table">
+      <div className="table-scroll"><table className="data-table">
         <thead>
           <tr>
             <th>申請ID</th>
@@ -99,7 +99,7 @@ export function KosodateListPage() {
                 </span>
               </td>
               <td>
-                <button className="row-btn">申請を開く</button>
+                <Link to={`/kosodate/${application.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>申請を開く</Link>
               </td>
             </tr>
           ))}
@@ -111,7 +111,7 @@ export function KosodateListPage() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

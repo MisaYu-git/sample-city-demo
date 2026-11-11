@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { shokuhinStore } from "../../data/shokuhin";
 import { copyText } from "../../lib/clipboard";
 import { formatPermit } from "./formatPermit";
@@ -73,7 +73,7 @@ export function ShokuhinListPage() {
         {applications.length}
         {" 件"}
       </div>
-      <table className="data-table">
+      <div className="table-scroll"><table className="data-table">
         <thead>
           <tr>
             <th>申請ID</th>
@@ -112,7 +112,7 @@ export function ShokuhinListPage() {
                 </button>
               </td>
               <td>
-                <button className="row-btn">審査を開く</button>
+                <Link to={`/shokuhin/${application.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>審査を開く</Link>
               </td>
             </tr>
           ))}
@@ -124,7 +124,7 @@ export function ShokuhinListPage() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

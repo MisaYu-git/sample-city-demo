@@ -124,7 +124,7 @@ export function SubjectDetailPage() {
       <section className="card">
         <div className="card-header">特定健診結果（医療機関連携データ）</div>
         <div className="card-body">
-          <table className="vital-table">
+          <div className="table-scroll"><table className="vital-table">
             <thead>
               <tr>
                 <th>検査項目</th>
@@ -155,7 +155,7 @@ export function SubjectDetailPage() {
                 );
               })}
             </tbody>
-          </table>
+          </table></div>
           <div className="findings">
             <div className="findings-title">所見</div>
             <p>{subject.findings}</p>

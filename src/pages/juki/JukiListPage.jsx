@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { jukiStore } from "../../data/juki";
 import { copyText } from "../../lib/clipboard";
 import { formatLedger } from "./formatLedger";
@@ -76,7 +76,7 @@ export function JukiListPage() {
         {residents.length}
         {" 件"}
       </div>
-      <table className="data-table">
+      <div className="table-scroll"><table className="data-table">
         <thead>
           <tr>
             <th>住民票コード</th>
@@ -120,7 +120,7 @@ export function JukiListPage() {
                 </button>
               </td>
               <td>
-                <button className="row-btn">審査を開く</button>
+                <Link to={`/juki/${resident.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>審査を開く</Link>
               </td>
             </tr>
           ))}
@@ -132,7 +132,7 @@ export function JukiListPage() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

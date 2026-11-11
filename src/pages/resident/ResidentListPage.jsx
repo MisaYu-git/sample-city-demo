@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { residentStore } from "../../data/resident";
 import { RESIDENT_STATUS_BADGE } from "./badges";
 
@@ -64,7 +64,7 @@ export function ResidentListPage() {
         {transfers.length}
         {" 件"}
       </div>
-      <table className="data-table">
+      <div className="table-scroll"><table className="data-table">
         <thead>
           <tr>
             <th>連携ID</th>
@@ -101,7 +101,7 @@ export function ResidentListPage() {
                 </span>
               </td>
               <td>
-                <button className="row-btn">転入情報を開く</button>
+                <Link to={`/resident/${transfer.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>転入情報を開く</Link>
               </td>
             </tr>
           ))}
@@ -113,7 +113,7 @@ export function ResidentListPage() {
             </tr>
           )}
         </tbody>
-      </table>
+      </table></div>
     </div>
   );
 }

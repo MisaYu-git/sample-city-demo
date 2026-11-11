@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { deleteConsultation, fetchConsultations } from "../../lib/api";
 import { previewSummary } from "./previewSummary";
 
@@ -81,7 +81,7 @@ export function ConnectListPage() {
             <strong>{consultations.length}</strong>
             {" 件"}
           </div>
-          <table className="data-table">
+          <div className="table-scroll"><table className="data-table">
             <thead>
               <tr>
                 <th>相談ID</th>
@@ -120,7 +120,7 @@ export function ConnectListPage() {
                       )}
                     </td>
                     <td>
-                      <button className="row-btn">記録を開く</button>
+                      <Link to={`/connect/${consultation.id}`} className="row-btn" onClick={(event) => event.stopPropagation()}>記録を開く</Link>
                     </td>
                     <td>
                       <button
@@ -142,7 +142,7 @@ export function ConnectListPage() {
                 </tr>
               )}
             </tbody>
-          </table>
+          </table></div>
         </>
       )}
     </div>
