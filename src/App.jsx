@@ -6,6 +6,14 @@ import { SiteFooter } from "./components/SiteFooter";
 import { DemoLayout } from "./components/DemoLayout";
 import { ConnectWidget } from "./components/ConnectWidget";
 import { PortalPage } from "./pages/portal/PortalPage";
+import { LearnHubPage } from "./pages/learn/LearnHubPage";
+import { GovCloudPage } from "./pages/learn/GovCloudPage";
+import { StandardizationPage } from "./pages/learn/StandardizationPage";
+import { ThreeLayerPage } from "./pages/learn/ThreeLayerPage";
+import { BusinessCatalogPage } from "./pages/learn/BusinessCatalogPage";
+import { BusinessDetailPage } from "./pages/learn/BusinessDetailPage";
+import { GlossaryPage } from "./pages/learn/GlossaryPage";
+import { ManagePage } from "./pages/manage/ManagePage";
 import { SubjectListPage } from "./pages/karte/SubjectListPage";
 import { SubjectDetailPage } from "./pages/karte/SubjectDetailPage";
 import { ResidentListPage } from "./pages/resident/ResidentListPage";
@@ -53,6 +61,16 @@ export default function App() {
       <div className="app-body">
         <Routes>
           <Route path="/" element={<PortalPage />} />
+          {/* 学ぶ（ナレッジ） */}
+          <Route path="/learn" element={<LearnHubPage />} />
+          <Route path="/learn/gov-cloud" element={<GovCloudPage />} />
+          <Route path="/learn/standardization" element={<StandardizationPage />} />
+          <Route path="/learn/three-layer" element={<ThreeLayerPage />} />
+          <Route path="/learn/business" element={<BusinessCatalogPage />} />
+          <Route path="/learn/business/:id" element={<BusinessDetailPage />} />
+          <Route path="/learn/glossary" element={<GlossaryPage />} />
+          {/* 管理（準備中の枠。中身は社内環境へ移行後に作る） */}
+          <Route path="/manage" element={<ManagePage />} />
           {/* 各業務デモは DemoLayout（紹介欄＋業務システムのウィンドウ）の中に表示する */}
           <Route element={<DemoLayout />}>
             <Route path="/karte" element={<SubjectListPage />} />

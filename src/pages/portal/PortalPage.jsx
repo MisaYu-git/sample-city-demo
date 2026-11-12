@@ -2,6 +2,9 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ArrowRight,
+  BookOpen,
+  FolderKanban,
+  Lock,
   AudioLines,
   ClipboardCheck,
   Download,
@@ -16,6 +19,7 @@ import { assetUrl } from "../../lib/paths";
 import { HeroIllustration } from "./HeroIllustration";
 import { SectionLink } from "../../components/SectionLink";
 import { Phrase } from "../../components/Phrase";
+import { BUSINESSES, BUSINESS_GROUPS } from "../../content/business";
 
 const CATEGORY_ICONS = { read: ScanText, summary: AudioLines, phone: PhoneCall };
 
@@ -43,46 +47,46 @@ export function PortalPage() {
       <section className="hero">
         <div className="container hero-grid">
           <div className="hero-copy">
-            <p className="eyebrow light">GENERATIVE AI FOR LOCAL GOVERNMENT</p>
+            <p className="eyebrow light">GOVERNMENT CLOUD × GENERATIVE AI</p>
             <h1 className="hero-title">
-              <span className="phrase">紙と電話の</span>
-              <span className="phrase">窓口業務を、</span>
+              <span className="phrase">ガバメントクラウドと</span>
               <br />
               <span className="phrase">
-                <span className="hero-accent">生成AI</span>で
+                <span className="hero-accent">生成AI</span>で、
               </span>
-              <span className="phrase">スマートに。</span>
+              <span className="phrase">自治体の現場を</span>
+              <span className="phrase">変えていく。</span>
             </h1>
             <p className="hero-lead">
-              申請書の読み取り、審査、相談記録の作成、電話応対。
-              自治体の8つの業務で、生成AIが「どこで・どう役に立つか」を、実際の業務画面に近いデモで体験できます。
+              制度の基礎知識から、標準化20業務の解説、実際の業務画面に近いAIデモまで。
+              ガバメントクラウド × AI の提案に必要な知識と体験を、ひとつにまとめたポータルです。
             </p>
             <div className="hero-actions">
-              <SectionLink id="usecases" className="btn btn-accent">
-                デモを体験する
+              <Link to="/learn" className="btn btn-accent">
+                基礎から学ぶ
                 <ArrowRight size={18} aria-hidden="true" />
-              </SectionLink>
-              <SectionLink id="howto" className="btn btn-ghost">
-                使い方を見る
+              </Link>
+              <SectionLink id="usecases" className="btn btn-ghost">
+                デモを体験する
               </SectionLink>
             </div>
             <dl className="hero-stats">
               <div>
-                <dt>業務デモ</dt>
+                <dt>標準化業務の解説</dt>
+                <dd>
+                  <strong>20</strong>業務
+                </dd>
+              </div>
+              <div>
+                <dt>AIデモ</dt>
                 <dd>
                   <strong>8</strong>種類
                 </dd>
               </div>
               <div>
-                <dt>体験できる画面</dt>
+                <dt>基礎知識の解説</dt>
                 <dd>
-                  <strong>16</strong>画面
-                </dd>
-              </div>
-              <div>
-                <dt>AIの使い方</dt>
-                <dd>
-                  <strong>3</strong>パターン
+                  <strong>3</strong>テーマ
                 </dd>
               </div>
             </dl>
@@ -90,6 +94,93 @@ export function PortalPage() {
           <div className="hero-visual">
             <HeroIllustration />
           </div>
+        </div>
+      </section>
+
+      {/* ポータルの3つの柱 */}
+      <section className="section pillars">
+        <div className="container">
+          <p className="eyebrow">WHAT YOU CAN DO</p>
+          <h2 className="section-title">学ぶ・体験する・進める</h2>
+          <div className="pillar-grid">
+            <Link to="/learn" className="pillar">
+              <span className="pillar-no">01</span>
+              <span className="pillar-icon" aria-hidden="true">
+                <BookOpen size={28} />
+              </span>
+              <h3>学ぶ</h3>
+              <p>ガバメントクラウド、自治体システムの標準化、三層の対策など、提案の前提になる知識を図解で。</p>
+              <span className="pillar-cta">
+                基礎知識を読む
+                <ArrowRight size={18} aria-hidden="true" />
+              </span>
+            </Link>
+            <SectionLink id="usecases" className="pillar">
+              <span className="pillar-no">02</span>
+              <span className="pillar-icon" aria-hidden="true">
+                <MousePointerClick size={28} />
+              </span>
+              <h3>体験する</h3>
+              <p>8つの業務で、生成AIが「どこで・どう役に立つか」を、業務画面に近いデモで体験できます。</p>
+              <span className="pillar-cta">
+                デモ一覧へ
+                <ArrowRight size={18} aria-hidden="true" />
+              </span>
+            </SectionLink>
+            <Link to="/manage" className="pillar pillar-soon">
+              <span className="pillar-no">03</span>
+              <span className="pillar-icon" aria-hidden="true">
+                <FolderKanban size={28} />
+              </span>
+              <h3>
+                進める
+                <span className="nav-soon">準備中</span>
+              </h3>
+              <p>案件の状況、自治体ごとの課題、提案ナレッジ、分析ダッシュボード。社内環境で公開予定です。</p>
+              <span className="pillar-cta">
+                <Lock size={16} aria-hidden="true" />
+                予定している機能を見る
+              </span>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* 標準化20業務 */}
+      <section className="section business-strip">
+        <div className="container">
+          <div className="section-head">
+            <div>
+              <p className="eyebrow">20 STANDARD SERVICES</p>
+              <h2 className="section-title">標準化の対象となる20業務</h2>
+            </div>
+            <Link to="/learn/business" className="btn btn-primary">
+              カタログを見る
+              <ArrowRight size={18} aria-hidden="true" />
+            </Link>
+          </div>
+          <div className="strip-groups">
+            {BUSINESS_GROUPS.map((group) => (
+              <div key={group.key} className="strip-group" style={{ "--uc": group.color }}>
+                <h3>{group.label}</h3>
+                <div className="strip-items">
+                  {BUSINESSES.filter((business) => business.group === group.key).map((business) => (
+                    <Link
+                      key={business.id}
+                      to={`/learn/business/${business.id}`}
+                      className={"business-chip" + (business.demos.length ? " has-demo" : "")}
+                    >
+                      {business.name}
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+          <p className="strip-note">
+            <span className="business-chip has-demo sample" aria-hidden="true">業務名</span>
+            の印は、関連するAIデモがある業務です。
+          </p>
         </div>
       </section>
 

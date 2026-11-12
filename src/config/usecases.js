@@ -16,6 +16,7 @@ import {
  *
  *  listPath    : そのデモの最初の画面（一覧画面）
  *  paths       : このデモに属するパスの先頭（現在地の判定に使う）
+ *  business    : 関連する標準化対象事務（content/business.js の id）。対象外の業務なら空
  *  color       : デモごとのテーマ色（アイコンや帯に使う）
  *  system      : 業務システム画面の枠に出す情報（架空の NTT市 のシステム）
  *  breadcrumb  : 業務システム画面のパンくず。staticLabel があれば「ホーム > staticLabel」の固定表示
@@ -32,6 +33,7 @@ const SYSTEM_FOOTER = "（デモ環境）｜ 本システムはPoC用モック�
 export const USECASES = [
   {
     key: "karte",
+    business: ["kokumin-kenko-hoken"],
     no: "01",
     department: "国民年金課",
     title: "面談メモから、保健指導の記録をつくる",
@@ -54,6 +56,7 @@ export const USECASES = [
   },
   {
     key: "resident",
+    business: ["jumin-kihon-daicho"],
     no: "02",
     department: "市民課",
     title: "紙の転入届を、読み取って自動チェック",
@@ -76,6 +79,7 @@ export const USECASES = [
   },
   {
     key: "juki",
+    business: ["seikatsu-hogo"],
     no: "03",
     department: "生活福祉課",
     title: "生活保護の一次審査を、AIがまとめる",
@@ -98,6 +102,7 @@ export const USECASES = [
   },
   {
     key: "soudan",
+    business: [],
     no: "04",
     department: "子ども・若者総合支援センター",
     title: "相談電話の録音から、相談記録をつくる",
@@ -120,6 +125,7 @@ export const USECASES = [
   },
   {
     key: "kansensho",
+    business: ["kenko-kanri"],
     no: "05",
     department: "感染症・医務薬務課",
     title: "請求書と予診票を、そのまま表データに",
@@ -142,6 +148,7 @@ export const USECASES = [
   },
   {
     key: "kosodate",
+    business: ["jido-teate"],
     no: "06",
     department: "子育て支援課",
     title: "申請書の不備を、登録情報と照らして確認",
@@ -164,6 +171,7 @@ export const USECASES = [
   },
   {
     key: "shokuhin",
+    business: [],
     no: "07",
     department: "食品衛生課",
     title: "営業許可の審査を、マニュアルに沿って判定",
@@ -186,6 +194,7 @@ export const USECASES = [
   },
   {
     key: "connect",
+    business: [],
     no: "08",
     department: "子ども・若者総合支援センター",
     title: "電話の相談をAIが受け、記録まで自動化",

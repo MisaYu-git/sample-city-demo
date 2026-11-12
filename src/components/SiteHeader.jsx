@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ChevronDown, Download, LayoutGrid } from "lucide-react";
+import { ChevronDown, Download, GraduationCap, LayoutGrid, Lock } from "lucide-react";
 import { USECASES } from "../config/usecases";
+import { SITE } from "../config/site";
 import { assetUrl } from "../lib/paths";
-import { SectionLink } from "./SectionLink";
 import { Phrase } from "./Phrase";
 
 /** サイト共通のヘッダー。ロゴ・ナビゲーション・デモ一覧のメニュー */
@@ -33,16 +33,23 @@ export function SiteHeader() {
   return (
     <header className="site-header">
       <div className="site-header-inner">
-        <Link to="/" className="brand" aria-label="自治体AIデモポータル トップへ">
+        <Link to="/" className="brand" aria-label={`${SITE.name} トップへ`}>
           <span className="brand-mark" aria-hidden="true">
             <span>AI</span>
           </span>
           <span className="brand-text">
-            <span className="brand-name">自治体AIデモポータル</span>
-            <span className="brand-tagline">Municipal AI Demo Portal</span>
+            <span className="brand-name">
+              <span className="brand-full">{SITE.name}</span>
+              <span className="brand-short">{SITE.shortName}</span>
+            </span>
+            <span className="brand-tagline">{SITE.nameEn}</span>
           </span>
         </Link>
         <nav className="site-nav" aria-label="サイト内">
+          <Link to="/learn" className={"nav-link" + (pathname.startsWith("/learn") ? " current" : "")}>
+            <GraduationCap size={18} aria-hidden="true" />
+            学ぶ
+          </Link>
           <div className="demo-menu" ref={menuRef}>
             <button
               type="button"
@@ -81,12 +88,11 @@ export function SiteHeader() {
               </div>
             )}
           </div>
-          <SectionLink id="howto" className="nav-link hide-sm">
-            使い方
-          </SectionLink>
-          <SectionLink id="architecture" className="nav-link hide-sm">
-            仕組み
-          </SectionLink>
+          <Link to="/manage" className={"nav-link hide-sm" + (pathname.startsWith("/manage") ? " current" : "")}>
+            <Lock size={16} aria-hidden="true" />
+            管理
+            <span className="nav-soon">準備中</span>
+          </Link>
           <a className="nav-cta" href={assetUrl("/doc/workflow.txt")} download="workflow.txt">
             <Download size={16} aria-hidden="true" />
             <span className="hide-sm">業務フロー資料</span>

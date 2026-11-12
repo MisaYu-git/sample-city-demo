@@ -1,5 +1,6 @@
 import { Link, Outlet, useLocation } from "react-router-dom";
-import { ArrowLeft, ArrowRight, CircleCheck, Info, TriangleAlert } from "lucide-react";
+import { ArrowLeft, ArrowRight, CircleCheck, Info, Landmark, TriangleAlert } from "lucide-react";
+import { findBusiness } from "../content/business";
 import { USECASES, categoryLabel, findUseCase } from "../config/usecases";
 import { SystemBreadcrumb } from "./SystemBreadcrumb";
 import { SectionLink } from "./SectionLink";
@@ -53,6 +54,21 @@ export function DemoLayout() {
                   </li>
                 ))}
               </ul>
+              <p className="demo-business">
+                <Landmark size={16} aria-hidden="true" />
+                {usecase.business.length > 0 ? (
+                  <>
+                    関連する標準化業務:
+                    {usecase.business.map((id) => (
+                      <Link key={id} to={`/learn/business/${id}`}>
+                        {findBusiness(id)?.name}
+                      </Link>
+                    ))}
+                  </>
+                ) : (
+                  <>標準化20業務の対象外の業務です</>
+                )}
+              </p>
             </div>
             <div className="before-after" aria-label="AIでどう変わるか">
               <div className="ba-card ba-before">
