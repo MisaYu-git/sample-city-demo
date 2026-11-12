@@ -1,6 +1,44 @@
-import { Fragment } from "react";
 import { Link, Navigate, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowRight, ClipboardList, Lightbulb, MonitorPlay, UserCheck } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowLeftRight,
+  ArrowRight,
+  ArrowUp,
+  BellRing,
+  Building2,
+  Calculator,
+  ChevronDown,
+  ClipboardCheck,
+  ClipboardList,
+  Coins,
+  FilePen,
+  FileSearch,
+  FileText,
+  Files,
+  HandHeart,
+  House,
+  IdCard,
+  Inbox,
+  Lightbulb,
+  ListChecks,
+  Mailbox,
+  MessageCircleQuestion,
+  MessagesSquare,
+  MonitorPlay,
+  Receipt,
+  RefreshCw,
+  Scale,
+  School,
+  SearchCheck,
+  Stamp,
+  Stethoscope,
+  Syringe,
+  UserCheck,
+  UserMinus,
+  Users,
+  Vote,
+  Wallet,
+} from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 import { ArticleMeta } from "../../components/ArticleMeta";
 import { BUSINESSES, findBusiness, groupOf } from "../../content/business";
@@ -14,6 +52,42 @@ const LEVELS = {
   low: { label: "主にシステムで対応", className: "low" },
 };
 const findDemo = (key) => USECASES.find((usecase) => usecase.key === key);
+/** 業務フローの手順（id="step-番号"）へスクロールする */
+const scrollToStep = (no) =>
+  document.getElementById(`step-${no}`)?.scrollIntoView({ behavior: "smooth", block: "start" });
+/** 縦の業務フローで、手順の左に出すアイコン（flow[].icon の値） */
+const STEP_ICONS = {
+  consult: MessagesSquare, // 相談
+  apply: FileText, // 申請
+  receive: Inbox, // 届出・申請の受付
+  review: ClipboardCheck, // 審査・確認
+  survey: SearchCheck, // 調査
+  compare: FileSearch, // 書類の照らし合わせ
+  judge: Scale, // 判定・審査会
+  record: FilePen, // 記録・記載
+  document: Files, // 資料の収集・整理
+  notify: BellRing, // 通知
+  mail: Mailbox, // 案内文の送付
+  guide: ListChecks, // 手続きの案内
+  certificate: Stamp, // 証明書の交付
+  link: ArrowLeftRight, // システムどうしの連携
+  pay: Wallet, // 支給
+  collect: Coins, // 収納・徴収
+  calc: Calculator, // 税額・保険料の計算
+  receipt: Receipt, // 給付・請求の処理
+  question: MessageCircleQuestion, // 問い合わせ
+  change: RefreshCw, // 変更・更新
+  remove: UserMinus, // 抹消・資格の喪失
+  support: HandHeart, // 受給中の支援
+  roster: Users, // 名簿・一覧
+  vote: Vote, // 選挙
+  card: IdCard, // 資格・氏名
+  house: House, // 家屋調査
+  company: Building2, // 法人
+  school: School, // 就学
+  checkup: Stethoscope, // 健診・保健指導
+  vaccine: Syringe, // 予防接種
+};
 
 /** 標準化20業務カタログ（業務ごとの詳細） */
 export function BusinessDetailPage() {
@@ -146,6 +220,8 @@ function BusinessSimple({ business, demos }) {
 /** 詳しい解説（業務概要・業務フロー・AI活用のまとめ） */
 function BusinessDetail({ detail, businessId }) {
   const highSteps = detail.flow.filter((step) => step.ai.level === "high");
+  // 効果「大」の手順がない業務では、「中」の手順をまとめに出す
+  const featured = highSteps.length > 0 ? highSteps : detail.flow.filter((step) => step.ai.level === "medium");
   return (
     <>
       {/* 業務概要 */}
@@ -162,10 +238,21 @@ function BusinessDetail({ detail, businessId }) {
         </dl>
         {detail.premise && <p className="detail-note">{detail.premise}</p>}
 
-        {/* 業務ごとの要点（カード形式・一覧形式） */}
+        {/* 業務ごとの要点（カード形式・一覧形式）。見出しだけ見せ、押すと中身が開く */}
         {detail.keySections.map((section) => (
-          <Fragment key={section.title}>
-            <h3 className="detail-subtitle">{section.title}</h3>
+          <details key={section.title} className="key-section">
+            <summary>
+              <span className="key-head">
+                <h3 className="detail-subtitle">{section.title}</h3>
+                {/* 閉じたままでも中身の骨組みが分かるよう、項目名だけを並べる */}
+                <span className="key-preview">{section.items.map((item) => item.name).join("・")}</span>
+              </span>
+              <span className="key-toggle" aria-hidden="true">
+                <span className="when-closed">開く</span>
+                <span className="when-open">閉じる</span>
+                <ChevronDown size={16} />
+              </span>
+            </summary>
             {section.type === "cards" ? (
               <div className="principle-grid">
                 {section.items.map((item) => (
@@ -186,90 +273,23 @@ function BusinessDetail({ detail, businessId }) {
                 ))}
               </ul>
             )}
-          </Fragment>
+          </details>
         ))}
       </section>
 
       {/* 業務フロー */}
       <section className="detail-section" id="flow">
         <h2 className="detail-title">業務フローとAIの活用</h2>
-        <p className="section-lead">{detail.flowLead}色の付いた手順で、生成AIが特に役立ちます。</p>
+        <p className="section-lead">
+          {detail.flowLead}
+          {/* 効果「大」の手順がない業務では、「中」の手順を案内する */}
+          {highSteps.length > 0
+            ? "「効果：大」の手順で、生成AIが特に役立ちます。"
+            : "「効果：中」の手順で、生成AIを一部に使えます。"}
+        </p>
 
-        <ol className="flow-map" aria-label="業務フローの全体像">
-          {detail.flow.map((step, i) => (
-            <Fragment key={step.title}>
-              <li className={`flow-chip ${step.ai.level}`}>
-                <span className="flow-chip-no">{i + 1}</span>
-                {step.title}
-              </li>
-              {i < detail.flow.length - 1 && <li className="flow-sep" aria-hidden="true" />}
-            </Fragment>
-          ))}
-        </ol>
-        <ul className="flow-legend" aria-label="凡例">
-          {Object.entries(LEVELS).map(([key, level]) => (
-            <li key={key}>
-              <span className={`legend-dot ${level.className}`} aria-hidden="true" />
-              {level.label}
-            </li>
-          ))}
-        </ul>
-
-        <div className="flow-table">
-          <div className="flow-head" aria-hidden="true">
-            <span>業務の手順</span>
-            <span>生成AIの活用</span>
-          </div>
-          {detail.flow.map((step, i) => {
-            const level = LEVELS[step.ai.level];
-            return (
-              <div key={step.title} className={`flow-row ${level.className}`}>
-                <div className="flow-step">
-                  <span className="flow-no">{i + 1}</span>
-                  <div>
-                    <h3>{step.title}</h3>
-                    <p className="flow-who">担当: {step.who}</p>
-                    <p>{step.work}</p>
-                    {step.pain && (
-                      <p className="flow-pain">
-                        <strong>いまの手間</strong>
-                        {step.pain}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                <div className="flow-ai">
-                  <span className={`level-badge ${level.className}`}>{level.label}</span>
-                  <p className="flow-ai-idea">{step.ai.idea}</p>
-                  {step.ai.check && (
-                    <p className="flow-check">
-                      <UserCheck size={16} aria-hidden="true" />
-                      <span>
-                        <strong>職員が判断すること</strong>
-                        {step.ai.check}
-                      </span>
-                    </p>
-                  )}
-                  {step.ai.demos.length > 0 && (
-                    <p className="flow-demos">
-                      {step.ai.demos.map((key) => {
-                        const demo = findDemo(key);
-                        // この業務そのもののデモか、ほかの業務で似た使い方をしているデモかを分けて示す
-                        const label = demo.business.includes(businessId) ? "この業務のデモ" : "似た使い方のデモ";
-                        return (
-                          <Link key={key} to={demo.listPath} className="text-link">
-                            {label}: {demo.department}
-                            <ArrowRight size={14} aria-hidden="true" />
-                          </Link>
-                        );
-                      })}
-                    </p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
+        <FlowOverview flow={detail.flow} />
+        <FlowVertical flow={detail.flow} businessId={businessId} />
       </section>
 
       {/* AI活用のまとめ */}
@@ -277,14 +297,30 @@ function BusinessDetail({ detail, businessId }) {
         <h2 className="detail-title">AI活用のまとめ</h2>
         <div className="summary-cols">
           <div>
-            <h3 className="detail-subtitle">特に効果が大きい場面</h3>
+            <h3 className="detail-subtitle">{highSteps.length > 0 ? "特に効果が大きい場面" : "AIを活用できる場面"}</h3>
             <ul className="summary-list">
-              {highSteps.map((step) => (
-                <li key={step.title}>
-                  <strong>{step.title}</strong>
-                  <span>{step.ai.idea}</span>
-                </li>
-              ))}
+              {featured.map((step) => {
+                const no = detail.flow.indexOf(step) + 1;
+                return (
+                  <li key={step.title}>
+                    {/* 押すと、業務フローのその手順へ移動する */}
+                    <button type="button" onClick={() => scrollToStep(no)}>
+                      <span className="summary-text">
+                        <strong>
+                          <span className="summary-no">{no}</span>
+                          {step.title}
+                        </strong>
+                        {/* 一言の要約があればそれを使い、フローの説明と同じ文を繰り返さない */}
+                        <span>{step.ai.summary ?? step.ai.idea}</span>
+                      </span>
+                      <span className="summary-go">
+                        手順へ
+                        <ArrowUp size={14} aria-hidden="true" />
+                      </span>
+                    </button>
+                  </li>
+                );
+              })}
             </ul>
           </div>
           <div>
@@ -311,6 +347,162 @@ function BusinessDetail({ detail, businessId }) {
         />
       </div>
     </>
+  );
+}
+
+
+/**
+ * 業務フローの概略（左から右へ）。上の段に段階名の帯、下の段に手順を矢羽根の形で並べる。
+ * 段階の幅は手順の数に比例させ、矢羽根の幅をそろえる。
+ * 手順名を押すと、下の詳しい説明へ移動する。
+ */
+function FlowOverview({ flow }) {
+  // 段階ごとに手順をまとめる（番号は通し番号のまま）
+  const phases = [];
+  flow.forEach((step, i) => {
+    const last = phases[phases.length - 1];
+    if (last && last.name === step.phase) last.steps.push({ step, no: i + 1 });
+    else phases.push({ name: step.phase, steps: [{ step, no: i + 1 }] });
+  });
+  return (
+    <nav className="flow-overview" aria-label="業務フローの概略">
+      {phases.map((phase) => (
+        <div key={phase.name ?? "all"} className="fo-phase" style={{ flexGrow: phase.steps.length }}>
+          {phase.name && <p className="fo-phase-name">{phase.name}</p>}
+          <ol className="fo-steps">
+            {phase.steps.map(({ step, no }) => (
+              <li key={step.title} className={step.ai.level}>
+                <button type="button" onClick={() => scrollToStep(no)}>
+                  <span className="fo-no">{no}</span>
+                  {step.title}
+                </button>
+              </li>
+            ))}
+          </ol>
+        </div>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * 業務フローを上から下へ並べる形。
+ * 手順ごとに、業務の内容と「いまの手間 → AIでこう変わる」の対をまとめ、矢印でつなぐ。
+ * flow[].phase があれば、段階が変わるところに見出し（相談・申請など）を出す。
+ * AIの効果が「low」の手順は、手順名と担当だけの1行で示す。
+ */
+function FlowVertical({ flow, businessId }) {
+  return (
+    <ol className="vflow" aria-label="業務フロー">
+      {flow.map((step, i) => {
+        const Icon = STEP_ICONS[step.icon] ?? ClipboardList;
+        const showPhase = step.phase && step.phase !== flow[i - 1]?.phase;
+        const isLast = i === flow.length - 1;
+        return (
+          <li key={step.title} id={`step-${i + 1}`} className={`vflow-item ${step.ai.level}`}>
+            {showPhase && <p className="vflow-phase">{step.phase}</p>}
+            <div className="vflow-row">
+              <div className="vflow-rail" aria-hidden="true">
+                <span className="vflow-icon">
+                  <Icon size={step.ai.level === "low" ? 16 : 22} />
+                </span>
+                {!isLast && <span className="vflow-line" />}
+              </div>
+              {step.ai.level === "low" ? (
+                // AIがあまり関わらない手順は1行にまとめ、AIが効く手順を目立たせる
+                <div className="vflow-compact">
+                  <h3>
+                    <span className="vflow-num">{i + 1}</span>
+                    {step.title}
+                  </h3>
+                  <span className="vflow-compact-note">
+                    担当: {step.who}・{LEVELS.low.label}
+                  </span>
+                </div>
+              ) : (
+                <VStep step={step} no={i + 1} businessId={businessId} />
+              )}
+            </div>
+          </li>
+        );
+      })}
+    </ol>
+  );
+}
+
+/**
+ * 縦の業務フローの1手順。
+ *  見出し（番号・手順名・担当）→ 業務の内容 → 「いまの手間 → AIでこう変わる（職員が判断すること・関連デモ）」
+ * ai.summary（一言の要約）があれば太字で出し、ai.idea は補足として普通の太さで出す。
+ */
+function VStep({ step, no, businessId }) {
+  const level = LEVELS[step.ai.level];
+  return (
+    <div className="vstep">
+      <div className="vstep-head">
+        <h3>
+          <span className="vflow-num">{no}</span>
+          {step.title}
+        </h3>
+        <span className="vstep-who">担当: {step.who}</span>
+      </div>
+      <p className="vstep-work">{step.work}</p>
+
+      <div className={"vstep-pair" + (step.pain ? "" : " no-pain")}>
+        {step.pain && (
+          <>
+            <div className="vstep-before">
+              <p className="vstep-label">いまの手間</p>
+              <p>{step.pain}</p>
+            </div>
+            <ArrowRight className="vstep-arrow" size={20} aria-hidden="true" />
+          </>
+        )}
+        <div className="vstep-after">
+          <p className={`vstep-label ${level.className}`}>AIでこう変わる・{level.label.replace("AIの", "")}</p>
+          {step.ai.summary && <p className="vstep-summary">{step.ai.summary}</p>}
+          <p>{step.ai.idea}</p>
+          <StepCheck check={step.ai.check} />
+          <StepDemos demos={step.ai.demos} businessId={businessId} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+/** 職員が判断すること */
+function StepCheck({ check }) {
+  if (!check) return null;
+  return (
+    <p className="flow-check">
+      <UserCheck size={16} aria-hidden="true" />
+      <span>
+        <strong>職員が判断すること</strong>
+        {check}
+      </span>
+    </p>
+  );
+}
+
+/** 手順に関連するデモへのリンク */
+function StepDemos({ demos, businessId }) {
+  if (demos.length === 0) return null;
+  return (
+    <p className="flow-demos">
+      {demos.map((key) => {
+        const demo = findDemo(key);
+        // この業務そのもののデモか、ほかの業務で似た使い方をしているデモかを分けて示す
+        const label = demo.business.includes(businessId) ? "この業務のデモ" : "似た使い方のデモ";
+        return (
+          <Link key={key} to={demo.listPath} className="text-link">
+            {label}: {demo.department}
+            <ArrowRight size={14} aria-hidden="true" />
+          </Link>
+        );
+      })}
+    </p>
   );
 }
 

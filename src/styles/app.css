@@ -3183,224 +3183,342 @@ svg {
   color: var(--ink-2);
 }
 
-/* 業務フローの全体像（左から右へ） */
-.flow-map {
+/* 業務概要の要点（4つの原則など）。見出しの行を押すと開く */
+.key-section {
+  border-bottom: 1px solid var(--line);
+}
+/* 最初の要点の上は、補足の枠や表と離して区切り線を引く */
+.fact-table + .key-section,
+.detail-note + .key-section {
+  margin-top: 28px;
+  border-top: 1px solid var(--line);
+}
+.key-section > summary {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
-  gap: 8px 0;
-  margin: 24px 0 12px;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
+  cursor: pointer;
+  list-style: none;
+}
+.key-section > summary::-webkit-details-marker {
+  display: none;
+}
+.key-section > summary .detail-subtitle {
+  flex: none;
+  margin: 0;
+}
+.key-head {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  min-width: 0;
+}
+.key-preview {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 13px;
+  color: var(--ink-3);
+}
+/* 開いたら中身が見えるので、項目名の一覧は消す */
+.key-section[open] .key-preview {
+  display: none;
+}
+.key-section > summary:hover .detail-subtitle {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.key-toggle {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy-700);
+}
+.key-toggle svg {
+  transition: transform 0.15s;
+}
+.key-section[open] .key-toggle svg {
+  transform: rotate(180deg);
+}
+.key-section .when-open,
+.key-section[open] .when-closed {
+  display: none;
+}
+.key-section[open] .when-open {
+  display: inline;
+}
+.key-section[open] > :last-child {
+  margin-bottom: 24px;
+}
+
+/* 業務フローの概略（左から右へ）。上: 段階名の帯 / 下: 手順の矢羽根 */
+.flow-overview {
+  display: flex;
+  gap: 4px;
+  margin: 28px 0 12px;
+}
+.fo-phase {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 0;
+  min-width: 0;
+}
+/* 段階名は細い帯にして、手順（矢羽根）を主役にする */
+.fo-phase-name {
+  margin: 0 0 4px;
+  padding: 3px 12px;
+  background: var(--navy-800);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: 0.06em;
+}
+.fo-steps {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.flow-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  padding: 0 14px 0 8px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  font-size: 14px;
-  font-weight: 700;
-  white-space: nowrap;
+.fo-steps li {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
 }
-.flow-chip-no {
-  display: grid;
-  place-items: center;
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: var(--paper-deep);
+/* 矢羽根の形（左は切り欠き、右は山形）。全体の先頭だけ左を平らにする */
+.fo-steps button {
+  --notch: 12px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 64px;
+  margin-left: calc(var(--notch) * -0.5);
+  padding: 8px calc(var(--notch) + 8px);
+  border: none;
+  background: #e4e8ef;
+  clip-path: polygon(0 0, calc(100% - var(--notch)) 0, 100% 50%, calc(100% - var(--notch)) 100%, 0 100%, var(--notch) 50%);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--ink);
+  text-align: center;
+  word-break: auto-phrase;
+  cursor: pointer;
+}
+.fo-phase:first-child li:first-child button {
+  margin-left: 0;
+  clip-path: polygon(0 0, calc(100% - var(--notch)) 0, 100% 50%, calc(100% - var(--notch)) 100%, 0 100%);
+}
+.fo-steps button:hover {
+  background: #d5dbe5;
+}
+.fo-steps li.low button {
+  background: #eef0f4;
+  font-weight: 400;
+  color: var(--ink-3);
+}
+.fo-no {
   font-family: "Inter", sans-serif;
   font-size: 12px;
   font-weight: 800;
+  color: var(--ink-3);
 }
-.flow-chip.high {
-  border-color: var(--accent-strong);
-  background: var(--accent-soft);
-  color: #8a2c10;
+.fo-steps li.high .fo-no {
+  color: var(--accent-strong);
 }
-.flow-chip.high .flow-chip-no {
-  background: var(--accent-strong);
-  color: #fff;
-}
-.flow-chip.medium {
-  border-color: var(--navy-700);
-}
-.flow-chip.medium .flow-chip-no {
-  background: var(--navy-800);
-  color: #fff;
-}
-.flow-sep {
-  width: 22px;
-  height: 2px;
-  margin: 0 4px;
-  background: var(--control);
-  position: relative;
-}
-.flow-sep::after {
-  content: "";
-  position: absolute;
-  top: -4px;
-  right: 0;
-  width: 8px;
-  height: 8px;
-  border-top: 2px solid var(--control);
-  border-right: 2px solid var(--control);
-  transform: rotate(45deg);
-}
-.flow-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 24px;
-  margin: 0 0 28px;
-  padding: 0;
-  list-style: none;
-  font-size: 13px;
-  color: var(--ink-2);
-}
-.flow-legend li {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.legend-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid var(--control);
-  background: var(--surface);
-}
-.legend-dot.high {
-  border-color: var(--accent-strong);
-  background: var(--accent-strong);
-}
-.legend-dot.medium {
-  border-color: var(--navy-800);
-  background: var(--navy-800);
+@media (max-width: 900px) {
+  /* 狭い画面では段階ごとに縦に並べ、矢羽根は四角にする */
+  .flow-overview {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .fo-steps {
+    flex-direction: column;
+  }
+  .fo-steps button,
+  .fo-phase:first-child li:first-child button {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 8px;
+    min-height: 44px;
+    margin-left: 0;
+    padding: 8px 14px;
+    clip-path: none;
+    text-align: left;
+  }
 }
 
-/* 業務フローの表（左: 業務の手順 / 右: 生成AIの活用） */
-.flow-table {
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  overflow: hidden;
-  box-shadow: var(--shadow-card);
+/* 業務フロー（上から下へ）。左: アイコンと矢印 / 中: 手順の内容 / 右: 生成AIの活用。
+   飾りは増やさず、線と文字で見せる（色を使うのは「AIの効果：大」の文字だけ） */
+.vflow {
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
 }
-.flow-head {
-  display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  background: var(--navy-800);
-  color: #fff;
+.vflow-phase {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin: 0 0 20px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 800;
+  color: var(--ink);
 }
-.flow-head span {
-  padding: 12px 24px;
+.vflow-phase::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
 }
-.flow-row {
+.vflow-item {
+  /* 概略から移動したとき、上の固定ヘッダーに隠れないようにする */
+  scroll-margin-top: 96px;
+}
+.vflow-row {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
-  border-top: 1px solid var(--line);
+  grid-template-columns: 48px minmax(0, 1fr);
+  gap: 24px;
 }
-.flow-step {
-  display: grid;
-  grid-template-columns: 36px minmax(0, 1fr);
-  gap: 14px;
-  padding: 22px 24px;
+.vflow-rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.flow-no {
+.vflow-icon {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
+  flex: none;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: var(--paper-deep);
-  font-family: "Inter", sans-serif;
-  font-weight: 800;
+  border: 1px solid var(--control);
+  background: var(--surface);
+  color: var(--ink-2);
 }
-.flow-row.high .flow-no {
-  background: var(--accent-strong);
-  color: #fff;
+/* 次の手順へ向かう下向きの矢印 */
+.vflow-line {
+  position: relative;
+  flex: 1;
+  width: 1px;
+  min-height: 28px;
+  margin: 8px 0 6px;
+  background: var(--control);
 }
-.flow-row.medium .flow-no {
-  background: var(--navy-800);
-  color: #fff;
+.vflow-line::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  border-right: 1px solid var(--control);
+  border-bottom: 1px solid var(--control);
+  transform: translateX(-50%) rotate(45deg);
 }
-.flow-step h3 {
-  margin: 2px 0 2px;
+/* 1つの手順: 見出し → 業務の内容 → 「いまの手間 → AIでこう変わる」→ 職員が判断すること */
+.vstep {
+  min-width: 0;
+  padding: 10px 0 44px;
+}
+.vflow-item:last-child .vstep {
+  padding-bottom: 0;
+}
+.vstep-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+.vstep-head h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
   font-size: 18px;
   font-weight: 900;
 }
-.flow-step p {
-  margin: 6px 0 0;
+.vflow-num {
+  font-family: "Inter", sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.vstep-who {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.vstep-work {
+  max-width: 760px;
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--ink-2);
+  word-break: auto-phrase;
+}
+/* いまの手間 → AIでこう変わる（左右に並べ、上の罫線で業務の内容と分ける） */
+.vstep-pair {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 20px minmax(0, 1.25fr);
+  gap: 20px;
+  align-items: start;
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+.vstep-pair.no-pain {
+  grid-template-columns: minmax(0, 1fr);
+}
+.vstep-pair p {
+  margin: 0;
   font-size: 14px;
   line-height: 1.75;
   word-break: auto-phrase;
 }
-.flow-who {
-  color: var(--ink-3);
-  font-weight: 700;
-  font-size: 13px !important;
-  margin-top: 0 !important;
+.vstep-pair p + p {
+  margin-top: 4px;
 }
-.flow-pain {
+.vstep-before p:not(.vstep-label) {
   color: var(--ink-2);
 }
-.flow-pain strong {
-  margin-right: 8px;
-  font-size: 12px;
-  color: var(--ink-3);
-}
-.flow-ai {
-  padding: 22px 24px;
-  border-left: 1px solid var(--line);
-  background: #fbfaf7;
-}
-.flow-row.high .flow-ai {
-  background: color-mix(in srgb, var(--accent) 6%, white);
-}
-.flow-row.low .flow-ai {
-  background: var(--surface);
-}
-.level-badge {
-  display: inline-flex;
-  align-items: center;
-  padding: 3px 12px;
-  border-radius: 999px;
-  font-size: 12px;
+.vstep-label {
+  margin-bottom: 6px !important;
+  font-size: 12px !important;
   font-weight: 800;
-  background: #eef0f4;
-  color: var(--ink-2);
+  color: var(--ink-3);
 }
-.level-badge.high {
-  background: var(--accent-strong);
-  color: #fff;
+.vstep-label.high {
+  color: var(--accent-strong);
 }
-.level-badge.medium {
-  background: var(--navy-800);
-  color: #fff;
+.vstep-label.medium {
+  color: var(--ink);
 }
-.flow-ai-idea {
-  margin: 10px 0 0;
-  font-weight: 700;
-  line-height: 1.7;
-  word-break: auto-phrase;
+.vstep-arrow {
+  margin-top: 24px;
+  color: var(--control);
 }
-.flow-row.low .flow-ai-idea {
-  font-weight: 400;
-  color: var(--ink-2);
+.vstep-summary {
+  font-size: 16px !important;
+  font-weight: 800;
+  color: var(--ink);
 }
+/* 職員が判断すること・関連デモ（AIでこう変わるの欄の中） */
 .flow-check {
   display: flex;
   gap: 8px;
-  margin: 12px 0 0;
-  font-size: 14px;
   color: var(--ink-2);
-  line-height: 1.7;
 }
 .flow-check svg {
   flex: none;
@@ -3416,10 +3534,47 @@ svg {
   display: flex;
   flex-wrap: wrap;
   gap: 4px 16px;
-  margin: 12px 0 0;
-  font-size: 14px;
+}
+.vstep-after .flow-check,
+.vstep-after .flow-demos {
+  margin-top: 10px;
+}
+.vstep-after .flow-check {
+  font-size: 13px;
 }
 
+/* AIがあまり関わらない手順（1行で控えめに） */
+.vflow-item.low .vflow-rail {
+  padding-top: 8px;
+}
+.vflow-item.low .vflow-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--ink-3);
+}
+.vflow-compact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 20px;
+  padding: 12px 0 32px;
+}
+.vflow-item:last-child .vflow-compact {
+  padding-bottom: 0;
+}
+.vflow-compact h3 {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-2);
+}
+.vflow-compact-note {
+  font-size: 13px;
+  color: var(--ink-3);
+}
 /* AI活用のまとめ */
 .summary-cols {
   display: grid;
@@ -3436,13 +3591,54 @@ svg {
   border-top: 1px solid var(--line);
 }
 .summary-list li {
-  display: flex;
-  flex-direction: column;
-  padding: 14px 0;
   border-bottom: 1px solid var(--line);
 }
+/* 項目全体を押せるようにし、業務フローの該当する手順へ移動する */
+.summary-list button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 14px 0;
+  border: none;
+  background: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.summary-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
 .summary-list strong {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
   color: var(--accent-strong);
+}
+.summary-no {
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+}
+.summary-go {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-3);
+}
+.summary-list button:hover strong {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.summary-list button:hover .summary-go {
+  color: var(--navy-700);
 }
 .summary-cols .check-list {
   margin-bottom: 16px;
@@ -3461,22 +3657,39 @@ svg {
   }
 }
 @media (max-width: 900px) {
-  .flow-head {
-    display: none;
-  }
-  .flow-row {
-    grid-template-columns: 1fr;
-  }
-  .flow-ai {
-    border-left: none;
-    border-top: 1px dashed var(--line);
-    padding-left: 74px;
-  }
   .summary-cols {
     grid-template-columns: 1fr;
   }
+  .vstep-pair {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+  .vstep-arrow {
+    margin: 0;
+    transform: rotate(90deg);
+  }
 }
 @media (max-width: 640px) {
+  .key-head {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .key-preview {
+    white-space: normal;
+  }
+  .vflow-row {
+    grid-template-columns: 40px minmax(0, 1fr);
+    gap: 14px;
+  }
+  .vflow-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .vflow-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
   .principle-grid,
   .aid-grid {
     grid-template-columns: 1fr;
@@ -3484,11 +3697,5 @@ svg {
   .fact-table > div {
     grid-template-columns: 1fr;
     gap: 4px;
-  }
-  .flow-ai {
-    padding-left: 24px;
-  }
-  .flow-sep {
-    width: 14px;
   }
 }
