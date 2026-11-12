@@ -71,7 +71,7 @@ export function PortalPage() {
               <span>標準化の対象業務の解説</span>
             </li>
             <li>
-              <strong>8</strong>
+              <strong>{USECASES.length}</strong>
               <span>種類の業務デモ</span>
             </li>
             <li>
@@ -99,7 +99,7 @@ export function PortalPage() {
             <SectionLink id="usecases" className="feature">
               <span className="feature-no">2</span>
               <h3>体験する</h3>
-              <p>申請書の読み取り、審査、相談記録の要約、電話応対。8つの業務で、生成AIを使う場面を画面で確かめられます。</p>
+              <p>申請書の読み取り、審査、相談記録の要約、電話応対。{USECASES.length}つの業務で、生成AIを使う場面を画面で確かめられます。</p>
               <span className="feature-cta">
                 業務デモへ
                 <ArrowRight size={16} aria-hidden="true" />

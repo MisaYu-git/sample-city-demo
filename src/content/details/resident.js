@@ -274,7 +274,7 @@ export const DETAILS = {
         who: "市区町村の戸籍担当",
         work: "法改正による氏名の振り仮名の届出を受け付け、戸籍に記載します。",
         pain: "届出が一時期に多く寄せられる",
-        ai: { level: "high", summary: "振り仮名の違いを確認する", idea: "届出書を読み取り、記載しようとする振り仮名と照らし合わせる", check: "記載内容の確定", demos: [] },
+        ai: { level: "high", summary: "振り仮名の違いを確認する", idea: "届出書を読み取り、記載しようとする振り仮名と照らし合わせる", check: "記載内容の確定", demos: ["furigana"] },
       },
     ],
     humanOnly: [

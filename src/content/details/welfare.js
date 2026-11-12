@@ -286,7 +286,7 @@ export const DETAILS = {
         who: "市町村の調査員",
         work: "調査員が本人に面接し、心身の状況などを調査します（第27条第2項）。",
         pain: "調査のメモから、調査票や特記事項をまとめるのに時間がかかる",
-        ai: { level: "high", summary: "特記事項の下書きを作る", idea: "調査時のメモや聞き取り内容をもとに書く", check: "調査結果の確認と確定", demos: ["soudan"] },
+        ai: { level: "high", summary: "特記事項の下書きを作る", idea: "調査時のメモや聞き取り内容をもとに書く", check: "調査結果の確認と確定", demos: ["kaigo"] },
       },
       {
         title: "主治医の意見の取得",

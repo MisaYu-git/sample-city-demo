@@ -29,7 +29,7 @@ export const BUSINESSES = [
     summary: "出生・婚姻・死亡などの身分関係を登録し、証明する事務です。",
     tasks: ["出生・婚姻・死亡などの届出の審査と記録", "戸籍謄本・抄本などの証明書の交付"],
     aiIdeas: ["届出書の記載内容の確認を補助する", "届出に必要な書類の案内を、事例に合わせて作る"],
-    demos: [],
+    demos: ["furigana"],
   },
   {
     id: "koseki-no-fuhyo",
@@ -65,7 +65,7 @@ export const BUSINESSES = [
     summary: "土地・家屋・償却資産に課税する、市町村の基幹的な税の事務です。",
     tasks: ["課税対象の資産の評価と課税", "納税通知書の作成と発送", "償却資産の申告の受付"],
     aiIdeas: ["申告書の読み取りと、前年度の申告との違いの確認", "問い合わせに答えるための説明文の下書き"],
-    demos: [],
+    demos: ["shokyaku"],
   },
   {
     id: "kojin-juminzei",
@@ -119,7 +119,7 @@ export const BUSINESSES = [
     summary: "介護が必要な高齢者などを支える介護保険の、認定・給付・保険料の事務です。",
     tasks: ["要介護認定の申請受付と認定", "保険料の賦課・徴収", "介護サービスの給付の管理"],
     aiIdeas: ["認定調査の記録の整理を補助する", "申請書類の読み取りと内容の確認"],
-    demos: [],
+    demos: ["kaigo"],
   },
   {
     id: "jido-fuyo-teate",
@@ -191,7 +191,7 @@ export const BUSINESSES = [
     summary: "国民年金の加入や保険料の免除などの届出を、市町村の窓口で受け付ける事務です。",
     tasks: ["資格の取得・喪失などの届出の受付", "保険料の免除などの申請の受付"],
     aiIdeas: ["届出書の記載内容の確認を補助する"],
-    demos: [],
+    demos: ["nenkin"],
   },
 ];
 

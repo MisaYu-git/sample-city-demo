@@ -54,7 +54,7 @@ export const DETAILS = {
         who: "市町村の資産税担当",
         work: "事業者から、毎年1月31日までに償却資産の申告を受け付けます（第383条）。",
         pain: "申告が1月に集中し、紙の申告書の確認と入力が多い",
-        ai: { level: "high", summary: "前年との違いを一覧にする", idea: "申告書を読み取り、前年の申告と突き合わせる", check: "申告内容の確認", demos: ["kansensho"] },
+        ai: { level: "high", summary: "前年との違いを一覧にする", idea: "申告書を読み取り、前年の申告と突き合わせる", check: "申告内容の確認", demos: ["shokyaku"] },
       },
       {
         title: "税額の計算・課税台帳",

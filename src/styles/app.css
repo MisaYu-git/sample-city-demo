@@ -3699,3 +3699,8 @@ svg {
     gap: 4px;
   }
 }
+
+/* 業務システム画面で、表のすぐ下に置く説明文 */
+.table-scroll + .field-help {
+  margin-top: 12px;
+}

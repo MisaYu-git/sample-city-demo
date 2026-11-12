@@ -30,6 +30,14 @@ import { ShokuhinListPage } from "./pages/shokuhin/ShokuhinListPage";
 import { ShokuhinDetailPage } from "./pages/shokuhin/ShokuhinDetailPage";
 import { ConnectListPage } from "./pages/connect/ConnectListPage";
 import { ConnectDetailPage } from "./pages/connect/ConnectDetailPage";
+import { KaigoListPage } from "./pages/kaigo/KaigoListPage";
+import { KaigoDetailPage } from "./pages/kaigo/KaigoDetailPage";
+import { ShokyakuListPage } from "./pages/shokyaku/ShokyakuListPage";
+import { ShokyakuDetailPage } from "./pages/shokyaku/ShokyakuDetailPage";
+import { NenkinListPage } from "./pages/nenkin/NenkinListPage";
+import { NenkinDetailPage } from "./pages/nenkin/NenkinDetailPage";
+import { FuriganaListPage } from "./pages/furigana/FuriganaListPage";
+import { FuriganaDetailPage } from "./pages/furigana/FuriganaDetailPage";
 
 // 作業用ページのビルドでだけ VITE_ENV_LABEL が設定され、本番との取り違えを防ぐ帯を出す
 const envLabel = import.meta.env.VITE_ENV_LABEL;
@@ -89,6 +97,14 @@ export default function App() {
             <Route path="/shokuhin/:id" element={<ShokuhinDetailPage />} />
             <Route path="/connect" element={<ConnectListPage />} />
             <Route path="/connect/:id" element={<ConnectDetailPage />} />
+            <Route path="/kaigo" element={<KaigoListPage />} />
+            <Route path="/kaigo/:id" element={<KaigoDetailPage />} />
+            <Route path="/shokyaku" element={<ShokyakuListPage />} />
+            <Route path="/shokyaku/:id" element={<ShokyakuDetailPage />} />
+            <Route path="/nenkin" element={<NenkinListPage />} />
+            <Route path="/nenkin/:id" element={<NenkinDetailPage />} />
+            <Route path="/furigana" element={<FuriganaListPage />} />
+            <Route path="/furigana/:id" element={<FuriganaDetailPage />} />
           </Route>
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
