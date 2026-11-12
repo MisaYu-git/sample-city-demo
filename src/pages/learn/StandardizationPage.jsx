@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Landmark } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 import { ArticleMeta } from "../../components/ArticleMeta";
 import { SOURCES } from "../../content/sources";
@@ -18,11 +18,9 @@ export function StandardizationPage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "学ぶ", to: "/learn" }, { label: "自治体システムの標準化" }]}
-        eyebrow="BASICS 02"
+        kicker="基礎知識 2／3"
         title="自治体システムの標準化とは"
         lead="住民記録や税、福祉など20の基幹業務について、自治体ごとにばらばらだった情報システムを、国が定めた標準仕様にそろえる取り組みです。"
-        icon={Landmark}
-        color="#178a68"
       />
       <div className="container article-layout">
         <article className="article">

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Globe, Layers, Lock, Network } from "lucide-react";
+import { ArrowRight, Globe, Lock, Network } from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 import { ArticleMeta } from "../../components/ArticleMeta";
 import { SOURCES } from "../../content/sources";
@@ -34,11 +34,9 @@ export function ThreeLayerPage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "学ぶ", to: "/learn" }, { label: "三層の対策" }]}
-        eyebrow="BASICS 03"
+        kicker="基礎知識 3／3"
         title="三層の対策（三層分離）とは"
         lead="自治体のネットワークを、扱う情報の重要度に応じて3つの領域に分けて守るセキュリティ対策です。AIを業務に取り入れるときにも、どの領域のデータを扱うかが設計の出発点になります。"
-        icon={Layers}
-        color="#3346a8"
       />
       <div className="container article-layout">
         <article className="article">

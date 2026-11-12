@@ -1,3 +1,4 @@
+import { ArrowLeft, Copy, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { jukiStore } from "../../data/juki";
@@ -44,7 +45,7 @@ export function JukiDetailPage() {
       <div className="page-title-bar">
         <h1>生活保護受給審査</h1>
         <Link to="/juki" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card genu-guide">
@@ -61,13 +62,13 @@ export function JukiDetailPage() {
           </ol>
           <div className="download-tools">
             <button type="button" className="tool-btn copy-btn" onClick={copyLedger}>
-              📋 台帳データをコピー
+              <Copy size={16} aria-hidden="true" />台帳データをコピー
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadDefinition}>
-              ⬇ ユースケースの定義をダウンロード
+              <Download size={16} aria-hidden="true" />ユースケースの定義をダウンロード
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadSample}>
-              ⬇ サンプルのヒアリングシートをダウンロード
+              <Download size={16} aria-hidden="true" />サンプルのヒアリングシートをダウンロード
             </button>
             {copyMessage && <span className="copy-msg">{copyMessage}</span>}
           </div>

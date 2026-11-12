@@ -1,3 +1,4 @@
+import { ArrowLeft } from "lucide-react";
 import { Link, useParams } from "react-router-dom";
 import { soudanStore } from "../../data/soudan";
 import { SoudanField } from "./SoudanField";
@@ -11,7 +12,7 @@ export function SoudanDetailPage() {
       <div className="page-title-bar">
         <h1>相談記録詳細</h1>
         <Link to="/soudan" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card">

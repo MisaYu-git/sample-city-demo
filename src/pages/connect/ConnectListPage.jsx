@@ -1,3 +1,4 @@
+import { RefreshCw, Trash2 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { deleteConsultation, fetchConsultations } from "../../lib/api";
@@ -46,7 +47,7 @@ export function ConnectListPage() {
       <div className="page-title-bar">
         <h1>相談記録一覧（Connect連携）</h1>
         <button className="save-btn secondary" onClick={reload}>
-          🔄 最新の状態に更新
+          <RefreshCw size={16} aria-hidden="true" />最新の状態に更新
         </button>
       </div>
       <section className="card genu-guide">
@@ -109,7 +110,7 @@ export function ConnectListPage() {
                       {summarizing ? (
                         <span className="badge badge-amber">⏳ 要約中</span>
                       ) : (
-                        <span className="badge badge-green">✔ 完了</span>
+                        <span className="badge badge-green">完了</span>
                       )}
                     </td>
                     <td className="ellipsis-cell">
@@ -128,7 +129,7 @@ export function ConnectListPage() {
                         onClick={(event) => handleDelete(event, consultation.id)}
                         disabled={deletingId === consultation.id}
                       >
-                        {deletingId === consultation.id ? "削除中..." : "🗑 削除"}
+                        <Trash2 size={16} aria-hidden="true" />{deletingId === consultation.id ? "削除中..." : "削除"}
                       </button>
                     </td>
                   </tr>

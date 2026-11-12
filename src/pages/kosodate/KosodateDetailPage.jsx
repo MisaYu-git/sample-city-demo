@@ -1,3 +1,4 @@
+import { ArrowLeft, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { kosodateStore } from "../../data/kosodate";
@@ -51,7 +52,7 @@ export function KosodateDetailPage() {
       <div className="page-title-bar">
         <h1>子育て支援金 申請審査</h1>
         <Link to="/kosodate" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card genu-guide">
@@ -72,10 +73,10 @@ export function KosodateDetailPage() {
           </ol>
           <div className="download-tools">
             <button type="button" className="tool-btn download-btn" onClick={downloadDefinition}>
-              ⬇ ユースケースの定義をダウンロード
+              <Download size={16} aria-hidden="true" />ユースケースの定義をダウンロード
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadSample}>
-              ⬇ サンプル申請書をダウンロード
+              <Download size={16} aria-hidden="true" />サンプル申請書をダウンロード
             </button>
           </div>
         </div>

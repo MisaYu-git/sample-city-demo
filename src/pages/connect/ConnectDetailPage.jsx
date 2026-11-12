@@ -1,3 +1,4 @@
+import { ArrowLeft, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { deleteConsultation, fetchConsultation } from "../../lib/api";
@@ -59,10 +60,10 @@ export function ConnectDetailPage() {
           }}
         >
           <button className="row-btn danger" onClick={handleDelete} disabled={deleting}>
-            {deleting ? "削除中..." : "🗑 この記録を削除"}
+            <Trash2 size={16} aria-hidden="true" />{deleting ? "削除中..." : "この記録を削除"}
           </button>
           <Link to="/connect" className="back-link">
-            ← 一覧へ戻る
+            <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
           </Link>
         </div>
       </div>

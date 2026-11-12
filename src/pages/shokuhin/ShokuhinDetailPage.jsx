@@ -1,3 +1,4 @@
+import { ArrowLeft, Copy, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { shokuhinStore } from "../../data/shokuhin";
@@ -43,7 +44,7 @@ export function ShokuhinDetailPage() {
       <div className="page-title-bar">
         <h1>営業許可 審査</h1>
         <Link to="/shokuhin" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card genu-guide">
@@ -60,13 +61,13 @@ export function ShokuhinDetailPage() {
           </ol>
           <div className="download-tools">
             <button type="button" className="tool-btn copy-btn" onClick={copyApplication}>
-              📋 申請データをコピー
+              <Copy size={16} aria-hidden="true" />申請データをコピー
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadDefinition}>
-              ⬇ ユースケースの定義をダウンロード
+              <Download size={16} aria-hidden="true" />ユースケースの定義をダウンロード
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadSample}>
-              ⬇ サンプル申請書をダウンロード
+              <Download size={16} aria-hidden="true" />サンプル申請書をダウンロード
             </button>
             {copyMessage && <span className="copy-msg">{copyMessage}</span>}
           </div>

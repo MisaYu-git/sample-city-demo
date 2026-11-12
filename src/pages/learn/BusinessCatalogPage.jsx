@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Landmark, MonitorPlay } from "lucide-react";
+import { ArrowRight, MonitorPlay } from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 import { BUSINESSES, BUSINESS_GROUPS } from "../../content/business";
 import { USECASES } from "../../config/usecases";
+import { BUSINESS_DETAILS } from "../../content/businessDetails";
 
 /** 標準化20業務カタログ（一覧） */
 export function BusinessCatalogPage() {
@@ -11,11 +12,8 @@ export function BusinessCatalogPage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "学ぶ", to: "/learn" }, { label: "標準化20業務カタログ" }]}
-        eyebrow="CATALOG"
         title="標準化20業務カタログ"
-        lead="自治体システム標準化の対象となる20業務を、5つの分野に分けて紹介します。デモがある業務には印が付いています。"
-        icon={Landmark}
-        color="#178a68"
+        lead="自治体システム標準化の対象となる20業務を、5つの分野に分けて紹介します。「解説あり」の業務は、業務フローとAIの活用まで詳しく解説しています。"
       />
       <section className="section-tight">
         <div className="container">
@@ -30,12 +28,15 @@ export function BusinessCatalogPage() {
                   <Link key={business.id} to={`/learn/business/${business.id}`} className="catalog-card">
                     <div className="catalog-card-head">
                       <h3>{business.name}</h3>
-                      {business.demos.length > 0 && (
-                        <span className="demo-flag">
-                          <MonitorPlay size={14} aria-hidden="true" />
-                          デモあり
-                        </span>
-                      )}
+                      <span className="catalog-flags">
+                        {BUSINESS_DETAILS[business.id] && <span className="detail-flag">解説あり</span>}
+                        {business.demos.length > 0 && (
+                          <span className="demo-flag">
+                            <MonitorPlay size={14} aria-hidden="true" />
+                            デモあり
+                          </span>
+                        )}
+                      </span>
                     </div>
                     <p>{business.summary}</p>
                     <span className="catalog-more">

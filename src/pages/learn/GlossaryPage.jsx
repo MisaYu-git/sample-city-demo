@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Library } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 import { GLOSSARY } from "../../content/glossary";
 
@@ -9,11 +9,8 @@ export function GlossaryPage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "学ぶ", to: "/learn" }, { label: "用語集" }]}
-        eyebrow="GLOSSARY"
         title="用語集"
         lead="ガバメントクラウドや自治体DX、生成AIの話でよく出てくる用語を、短く説明しています。"
-        icon={Library}
-        color="#b83d72"
       />
       <section className="section-tight">
         <div className="container">

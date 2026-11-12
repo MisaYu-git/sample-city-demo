@@ -1,4 +1,4 @@
-import { Building2, ChartColumn, Clock, FolderKanban, Lightbulb, Lock, ShieldCheck } from "lucide-react";
+import { Building2, ChartColumn, Clock, FolderKanban, Lightbulb, ShieldCheck } from "lucide-react";
 import { PageHero } from "../../components/PageHero";
 
 /**
@@ -41,11 +41,9 @@ export function ManagePage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "管理" }]}
-        eyebrow="MANAGE｜準備中"
+        kicker="準備中"
         title="案件と提案を、チームで管理する"
         lead="案件の状況や自治体ごとの課題など、顧客の情報を扱う機能です。ログインが必要な社内環境（AWS）へ移行してから公開します。"
-        icon={Lock}
-        color="#16244d"
       >
         <p className="manage-notice">
           <ShieldCheck size={18} aria-hidden="true" />

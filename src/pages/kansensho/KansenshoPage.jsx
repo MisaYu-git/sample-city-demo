@@ -1,3 +1,4 @@
+import { Download } from "lucide-react";
 import { downloadFile } from "../../lib/download";
 
 export function KansenshoPage() {
@@ -43,7 +44,7 @@ export function KansenshoPage() {
                 className="tool-btn download-btn"
                 onClick={() => downloadFile("/img/kansensho-seikyu.jpg", "kansensho-seikyu.jpg")}
               >
-                ⬇ 請求書サンプルをダウンロード
+                <Download size={16} aria-hidden="true" />請求書サンプルをダウンロード
               </button>
             </div>
             <div className="portal-download-item">
@@ -54,7 +55,7 @@ export function KansenshoPage() {
                 className="tool-btn download-btn"
                 onClick={() => downloadFile("/img/kansensho-yoshin.jpg", "kansensho-yoshin.jpg")}
               >
-                ⬇ 予診票サンプルをダウンロード
+                <Download size={16} aria-hidden="true" />予診票サンプルをダウンロード
               </button>
             </div>
             <div className="portal-download-item">
@@ -68,7 +69,7 @@ export function KansenshoPage() {
                 className="tool-btn copy-btn"
                 onClick={() => downloadFile("/doc/kansensho.json", "kansensho.json")}
               >
-                ⬇ ユースケースの定義をダウンロード
+                <Download size={16} aria-hidden="true" />ユースケースの定義をダウンロード
               </button>
             </div>
           </div>

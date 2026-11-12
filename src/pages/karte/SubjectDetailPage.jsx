@@ -1,3 +1,4 @@
+import { ArrowLeft, Copy, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { KARTE_SUMMARY_PROMPT } from "../../prompts/karteSummary";
@@ -67,7 +68,7 @@ export function SubjectDetailPage() {
       <div className="page-title-bar">
         <h1>カルテ詳細</h1>
         <Link to="/karte" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card">
@@ -189,10 +190,10 @@ export function SubjectDetailPage() {
           </p>
           <div className="prompt-tools">
             <button type="button" className="tool-btn copy-btn" onClick={copyPrompt}>
-              📋 要約用のプロンプトをコピー
+              <Copy size={16} aria-hidden="true" />要約用のプロンプトをコピー
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadSampleMemo}>
-              ⬇ サンプル手書き調書をダウンロード
+              <Download size={16} aria-hidden="true" />サンプル手書き調書をダウンロード
             </button>
             {copyMessage && <span className="copy-msg">{copyMessage}</span>}
           </div>

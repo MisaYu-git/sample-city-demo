@@ -1,3 +1,4 @@
+import { ArrowLeft, Download } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { residentStore } from "../../data/resident";
@@ -48,7 +49,7 @@ export function ResidentDetailPage() {
       <div className="page-title-bar">
         <h1>転入情報詳細</h1>
         <Link to="/resident" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card genu-guide">
@@ -68,10 +69,10 @@ export function ResidentDetailPage() {
           </ol>
           <div className="download-tools">
             <button type="button" className="tool-btn download-btn" onClick={downloadDefinition}>
-              ⬇ ユースケースの定義をダウンロード
+              <Download size={16} aria-hidden="true" />ユースケースの定義をダウンロード
             </button>
             <button type="button" className="tool-btn download-btn" onClick={downloadSample}>
-              ⬇ サンプル手書き転入届をダウンロード
+              <Download size={16} aria-hidden="true" />サンプル手書き転入届をダウンロード
             </button>
           </div>
         </div>

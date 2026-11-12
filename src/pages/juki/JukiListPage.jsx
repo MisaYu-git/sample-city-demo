@@ -1,3 +1,4 @@
+import { Check, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { jukiStore } from "../../data/juki";
@@ -116,7 +117,7 @@ export function JukiListPage() {
                   className="row-btn copy-row-btn"
                   onClick={(event) => copyLedger(event, resident.id)}
                 >
-                  {copiedId === resident.id ? "✔ コピー済" : "📋 台帳データをコピー"}
+                  {copiedId === resident.id ? (<><Check size={16} aria-hidden="true" />コピー済</>) : (<><Copy size={16} aria-hidden="true" />台帳データをコピー</>)}
                 </button>
               </td>
               <td>

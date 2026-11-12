@@ -1,3 +1,4 @@
+import { ArrowLeft, Copy, Download } from "lucide-react";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { copyText } from "../../lib/clipboard";
@@ -59,7 +60,7 @@ export function SoudanNewPage() {
       <div className="page-title-bar">
         <h1>新規相談を作成</h1>
         <Link to="/soudan" className="back-link">
-          ← 一覧へ戻る
+          <ArrowLeft size={16} aria-hidden="true" />一覧へ戻る
         </Link>
       </div>
       <section className="card genu-guide">
@@ -76,10 +77,10 @@ export function SoudanNewPage() {
           </ol>
           <div className="download-tools">
             <button type="button" className="tool-btn download-btn" onClick={downloadAudio}>
-              ⬇ 録音音声をダウンロード
+              <Download size={16} aria-hidden="true" />録音音声をダウンロード
             </button>
             <button type="button" className="tool-btn copy-btn" onClick={copyPrompt}>
-              📋 プロンプトをコピー
+              <Copy size={16} aria-hidden="true" />プロンプトをコピー
             </button>
             {copyMessage && <span className="copy-msg">{copyMessage}</span>}
           </div>

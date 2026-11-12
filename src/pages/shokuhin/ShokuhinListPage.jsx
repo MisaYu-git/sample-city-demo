@@ -1,3 +1,4 @@
+import { Check, Copy } from "lucide-react";
 import { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { shokuhinStore } from "../../data/shokuhin";
@@ -108,7 +109,7 @@ export function ShokuhinListPage() {
                   className="row-btn copy-row-btn"
                   onClick={(event) => copyApplication(event, application.id)}
                 >
-                  {copiedId === application.id ? "✔ コピー済" : "📋 申請データをコピー"}
+                  {copiedId === application.id ? (<><Check size={16} aria-hidden="true" />コピー済</>) : (<><Copy size={16} aria-hidden="true" />申請データをコピー</>)}
                 </button>
               </td>
               <td>

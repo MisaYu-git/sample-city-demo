@@ -12,11 +12,9 @@ export function GovCloudPage() {
     <div className="learn">
       <PageHero
         crumbs={[{ label: "ポータル", to: "/" }, { label: "学ぶ", to: "/learn" }, { label: "ガバメントクラウド" }]}
-        eyebrow="BASICS 01"
+        kicker="基礎知識 1／3"
         title="ガバメントクラウドとは"
         lead="国が整備した、政府共通のクラウドサービスの利用環境です。自治体は、標準化された業務システムをこの上で動かすことに努めることとされています。"
-        icon={Cloud}
-        color="#2563c9"
       />
       <div className="container article-layout">
         <article className="article">

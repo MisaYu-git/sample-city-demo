@@ -41,15 +41,15 @@ export default function App() {
   //  - 別のデモやトップへ移ったら、上端から表示する
   //  - 同じデモの中（一覧 ⇔ 詳細）なら、業務システムのウィンドウの位置から表示する
   //  - #usecases のようなページ内リンクは、各ページ側でその位置へスクロールする
-  const previousDemo = useRef();
+  const previousPath = useRef(null);
   useEffect(() => {
+    const previous = previousPath.current;
+    previousPath.current = pathname;
+    if (hash || previous === pathname) return; // 同じ画面での再実行（開発時の StrictMode など）は何もしない
     const demo = findUseCase(pathname)?.key;
-    if (!hash) {
-      const stage = document.querySelector(".demo-stage");
-      if (demo && demo === previousDemo.current && stage) stage.scrollIntoView({ block: "start" });
-      else window.scrollTo(0, 0);
-    }
-    previousDemo.current = demo;
+    const stage = document.querySelector(".demo-stage");
+    if (previous && demo && demo === findUseCase(previous)?.key && stage) stage.scrollIntoView({ block: "start" });
+    else window.scrollTo(0, 0);
   }, [pathname, hash]);
 
   return (
