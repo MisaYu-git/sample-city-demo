@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ChevronDown, Download, GraduationCap, LayoutGrid, Lock } from "lucide-react";
-import { USECASES } from "../config/usecases";
+import { demosByField } from "../config/usecases";
 import { SITE } from "../config/site";
 import { assetUrl } from "../lib/paths";
 import { Phrase } from "./Phrase";
@@ -64,27 +64,33 @@ export function SiteHeader() {
             </button>
             {open && (
               <div className="demo-menu-panel" id="demo-menu-panel">
-                {USECASES.map((usecase) => {
-                  const Icon = usecase.icon;
-                  return (
-                    <Link
-                      key={usecase.key}
-                      to={usecase.listPath}
-                      className="demo-menu-item"
-                      style={{ "--uc": usecase.color }}
-                    >
-                      <span className="uc-icon small" aria-hidden="true">
-                        <Icon size={18} />
-                      </span>
-                      <span>
-                        <span className="demo-menu-dept">{usecase.department}</span>
-                        <span className="demo-menu-title">
-                          <Phrase text={usecase.title} />
-                        </span>
-                      </span>
-                    </Link>
-                  );
-                })}
+                {/* 関連する標準化業務の分野ごとにまとめる */}
+                {demosByField().map((field) => (
+                  <div key={field.key} className="demo-menu-group">
+                    <p className="demo-menu-field">{field.label}</p>
+                    {field.items.map((usecase) => {
+                      const Icon = usecase.icon;
+                      return (
+                        <Link
+                          key={usecase.key}
+                          to={usecase.listPath}
+                          className="demo-menu-item"
+                          style={{ "--uc": usecase.color }}
+                        >
+                          <span className="uc-icon small" aria-hidden="true">
+                            <Icon size={18} />
+                          </span>
+                          <span>
+                            <span className="demo-menu-dept">{usecase.department}</span>
+                            <span className="demo-menu-title">
+                              <Phrase text={usecase.title} />
+                            </span>
+                          </span>
+                        </Link>
+                      );
+                    })}
+                  </div>
+                ))}
               </div>
             )}
           </div>

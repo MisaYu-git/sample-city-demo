@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
-import { USECASES } from "../config/usecases";
+import { SectionLink } from "./SectionLink";
+import { CATEGORIES, USECASES } from "../config/usecases";
 import { SITE } from "../config/site";
 
 export function SiteFooter() {
@@ -20,10 +21,14 @@ export function SiteFooter() {
         </nav>
         <nav className="footer-col" aria-label="デモ">
           <h2>体験する</h2>
-          {USECASES.map((usecase) => (
-            <Link key={usecase.key} to={usecase.listPath}>
-              {usecase.department}
-            </Link>
+          <SectionLink id="usecases" state={{ filter: "all" }}>
+            業務デモ一覧（{USECASES.length}）
+          </SectionLink>
+          {/* 押すと、トップページの業務デモをその種類で絞り込んで表示する */}
+          {CATEGORIES.map((category) => (
+            <SectionLink key={category.key} id="usecases" state={{ filter: category.key }}>
+              {category.label}（{USECASES.filter((usecase) => usecase.category === category.key).length}）
+            </SectionLink>
           ))}
         </nav>
         <nav className="footer-col" aria-label="管理">

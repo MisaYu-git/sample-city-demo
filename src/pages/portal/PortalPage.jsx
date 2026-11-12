@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ArrowRight, Download } from "lucide-react";
-import { CATEGORIES, USECASES, categoryLabel } from "../../config/usecases";
+import { CATEGORIES, USECASES } from "../../config/usecases";
 import { SITE } from "../../config/site";
 import { BUSINESSES, BUSINESS_GROUPS } from "../../content/business";
 import { assetUrl } from "../../lib/paths";
@@ -15,7 +15,11 @@ import { Phrase } from "../../components/Phrase";
  */
 export function PortalPage() {
   const [filter, setFilter] = useState("all");
-  const { hash } = useLocation();
+  const { hash, state } = useLocation();
+  // フッターの「体験する」から種類を指定して来たときは、その種類で絞り込む
+  useEffect(() => {
+    if (state?.filter) setFilter(state.filter);
+  }, [state]);
   const visible = useMemo(
     () => (filter === "all" ? USECASES : USECASES.filter((usecase) => usecase.category === filter)),
     [filter],
@@ -150,17 +154,11 @@ export function PortalPage() {
                   <span className="uc-icon" aria-hidden="true">
                     <Icon size={22} />
                   </span>
-                  <span className="uc-meta">
-                    {usecase.department}・{categoryLabel(usecase.category)}
-                  </span>
+                  <span className="uc-meta">{usecase.department}</span>
                   <h3 className="uc-title">
                     <Phrase text={usecase.title} />
                   </h3>
                   <p className="uc-lead">{usecase.lead}</p>
-                  <span className="uc-cta">
-                    デモを開く
-                    <ArrowRight size={16} aria-hidden="true" />
-                  </span>
                 </Link>
               );
             })}
